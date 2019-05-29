@@ -1,7 +1,7 @@
 # Compute maximum-likelihood estimates of the mixture proportions in a
 # mixture model by iterating the EM updates for a fixed number of
 # iterations.
-mixem <- function (L, w, x0, numiter = 1000, e = 1e-15) {
+mixem <- function (L, x0, numiter = 1000, e = 1e-15) {
 
   # Get the initial estimate of the solution.
   x <- x0
@@ -24,22 +24,31 @@ mixem <- function (L, w, x0, numiter = 1000, e = 1e-15) {
     x0 <- x
 
     # Update the solution.
-    x <- mixem.update(L,w,x,e)
+    x <- mixem.update(L,x,e)
     
     # Record the algorithm's progress.
-    progress[i,"obj"]  <- mixobjective(L,w,x,e)
+    progress[i,"obj"]  <- mixobjective(L,x,e)
     progress[i,"maxd"] <- max(abs(x - x0))
   }
 
   # Return (1) the estimate of the solution, (2) the value of the
   # objective at this estimate, and (3) a record of the progress made
   # at each EM iteration.
-  f <- mixobjective(L,w,x,e)
+  f <- mixobjective(L,x,e)
   return(list(x = x,value = f,progress = progress))
 }
 
+mixdaarem <- function (L, x0, numiter = 1000, e = 1e-15) {
+
+  # Get the initial estimate of the solution.
+  x <- log(x0 + e)
+
+  # Run DAAREM.
+  out <- daarem(x,fixptfn,objfn)
+}
+
 # Perform a single expectation maximization (EM) update.
-mixem.update <- function (L, w, x, e) {
+mixem.update <- function (L, x, e) {
 
   # E STEP
   # ------
@@ -51,16 +60,15 @@ mixem.update <- function (L, w, x, e) {
   # M STEP
   # ------
   # Update the mixture weights.
-  return(drop(w %*% P))
+  return(colMeans(P))
 }
- 
-# Compute the value of the mixsqp objective at x; arguments L and w
-# specify the objective, and e is a vector in which the entries can be
-# set to small, positive numbers, or to zero.
-mixobjective <- function (L, w, x, e) {
+
+# Compute the value of the log-likelihood at x; e is a vector in which
+# the entries can be set to small, positive numbers, or to zero.
+mixobjective <- function (L, x, e) {
  y <- drop(L %*% x) + e
  if (all(y > 0))
-   return(sum(x) - sum(w * log(y)))
+   return(sum(log(y)))
  else
-   return(Inf)
+   return(-Inf)
 }
