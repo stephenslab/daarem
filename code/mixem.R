@@ -13,7 +13,7 @@ mixem <- function (L, x0, numiter = 1000, e = 1e-15) {
 
   # This variable is used to keep track of the algorithm's progress;
   # it stores the value of the objective at each iteration.
-  obj <- rep(0,numiter)
+  value <- rep(0,numiter)
 
   # Iterate the E and M steps.
   for (i in 1:numiter) {
@@ -25,12 +25,12 @@ mixem <- function (L, x0, numiter = 1000, e = 1e-15) {
     x <- mixem.update(L,x,e)
     
     # Record the algorithm's progress.
-    obj[i] <- mixobjective(L,x,e)
+    value[i] <- mixobjective(L,x,e)
   }
 
-  # Return the estimate of the solution and the value of the objective
-  # at each iteration.
-  return(list(x = x,obj = obj))
+  # Return the estimate of the solution ("x") and the value of the
+  # objective at each iteration ("value").
+  return(list(x = x,value = value))
 }
 
 # Compute maximum-likelihood estimates of the mixture proportions in a
@@ -51,9 +51,9 @@ mixdaarem <- function (L, x0, numiter = 1000, order = 10, e = 1e-15) {
     daarem(x,mixdaarem.update,mixdaarem.objective,L,e,
            control = list(maxiter = numiter,order = order,tol = 0)))
 
-  browser()
-  
-  return(out)
+  # Return the estimate of the solution and the value of the objective
+  # at each iteration.
+  return(list(x = softmax(out$par),value = out$objfn.track[-1]))
 }
 
 # This implements the fixptfn argument for the daarem call above.
