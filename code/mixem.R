@@ -11,11 +11,9 @@ mixem <- function (L, x0, numiter = 1000, e = 1e-15) {
   # factor for each row of L.
   e <- e * apply(L,1,max)
 
-  # This data frame is used to store the EM algorithm's progress at
-  # each iteration. The three columns of the data frame store: (1) the
-  # iteration number, (2) the objective value at each iteation, and (3)
-  # the largest change in the solution at each iteration.
-  progress <- data.frame(iter = 1:numiter,obj = 0,maxd = 0)
+  # This variable is used to keep track of the algorithm's progress;
+  # it stores the value of the objective at each iteration.
+  obj <- rep(0,numiter)
 
   # Iterate the E and M steps.
   for (i in 1:numiter) {
@@ -27,27 +25,34 @@ mixem <- function (L, x0, numiter = 1000, e = 1e-15) {
     x <- mixem.update(L,x,e)
     
     # Record the algorithm's progress.
-    progress[i,"obj"]  <- mixobjective(L,x,e)
-    progress[i,"maxd"] <- max(abs(x - x0))
+    obj[i] <- mixobjective(L,x,e)
   }
 
-  # Return (1) the estimate of the solution, (2) the value of the
-  # objective at this estimate, and (3) a record of the progress made
-  # at each EM iteration.
-  f <- mixobjective(L,x,e)
-  return(list(x = x,value = f,progress = progress))
+  # Return the estimate of the solution and the value of the objective
+  # at each iteration.
+  return(list(x = x,obj = obj))
 }
 
-# TO DO: Explain here what this function does, and how to use it.
-mixdaarem <- function (L, x0, numiter = 1000, e = 1e-15) {
+# Compute maximum-likelihood estimates of the mixture proportions in a
+# mixture model by running DAAREM, an accelerated variant of the EM
+# algorithm.
+mixdaarem <- function (L, x0, numiter = 1000, order = 10, e = 1e-15) {
 
   # Get the initial estimate of the solution.
   x <- log(x0 + e)
 
-  # Run DAAREM.
-  out <- suppressWarnings(daarem(x,mixdaarem.update,mixdaarem.objective,L,e,
-                                 control = list(maxiter = numiter,tol = 0)))
+  # Scale the correction factor (e) by the maximum value of each row
+  # of the matrix (L). Therefore, we end up with a separate correction
+  # factor for each row of L.
+  e <- e * apply(L,1,max)
 
+  # Run DAAREM.
+  out <- suppressWarnings(
+    daarem(x,mixdaarem.update,mixdaarem.objective,L,e,
+           control = list(maxiter = numiter,order = order,tol = 0)))
+
+  browser()
+  
   return(out)
 }
 
