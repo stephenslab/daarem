@@ -1,7 +1,11 @@
-# TO DO: Briefly explain here what this script does, and how to use it.
+# A small script to illustrate application of the DAAREM method for
+# computing maximum-likelihood estimates of mixture proportions in a
+# mixture model.
 
 # SET UP ENVIRONMENT
 # ------------------
+library(ggplot2)
+library(cowplot)
 library(daarem)
 source("misc.R")
 source("mixem.R")
@@ -35,4 +39,13 @@ cat(sprintf("Objective value at DAAREM estimate is %0.12f.\n",f2))
 
 # PLOT IMPROVEMENT IN SOLUTION OVER TIME
 # --------------------------------------
-# TO DO.
+f    <- mixobjective(L,x)
+pdat <-
+  rbind(data.frame(iter = 1:1000,dist = f - fit1$value,method = "EM"),
+        data.frame(iter = 1:1000,dist = f - fit2$value,method = "DAAREM"))
+p <- ggplot(pdat,aes(x = iter,y = dist,col = method)) +
+    geom_line(size = 1) +
+    scale_y_continuous(trans = "log10",breaks = 10^seq(-4,4)) +
+    scale_color_manual(values = c("darkorange","dodgerblue")) +
+    labs(x = "iteration","distance from solution")
+print(p)
