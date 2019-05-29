@@ -12,8 +12,8 @@ cat("Loading data.\n")
 load("../data/mixdata.RData")
 
 # Set initial estimate of mixture proportions.
-k  <- ncol(L)
-x0 <- rep(1/k,k)
+m  <- ncol(L)
+x0 <- rep(1/m,m)
 
 # RUN BASIC EM
 # ------------
@@ -22,13 +22,12 @@ out <- system.time(fit1 <- mixem(L,x0,numiter = 1000))
 cat(sprintf("Computation took %0.2f seconds.\n",out["elapsed"]))
 cat(sprintf("Log-likelihood at EM estimate is %0.12f.\n",fit1$value))
 
-stop()
-
 # RUN ACCELERATED EM
 # ------------------
-cat("Fitting mixture model with accelerated EM method.\n")
-# TO DO.
+cat("Fitting mixture model with accelerated EM method (DAAREM).\n")
+out <- system.time(fit2 <- mixdaarem(L,x0,numiter = 1000))
 cat(sprintf("Computation took %0.2f seconds.\n",out["elapsed"]))
+stop()
 cat(sprintf("Objective value at DAAREM estimate is %0.12f.\n",fit2$value))
 
 # PLOT IMPROVEMENT IN SOLUTION OVER TIME

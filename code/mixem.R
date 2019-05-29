@@ -38,13 +38,29 @@ mixem <- function (L, x0, numiter = 1000, e = 1e-15) {
   return(list(x = x,value = f,progress = progress))
 }
 
+# TO DO: Explain here what this function does, and how to use it.
 mixdaarem <- function (L, x0, numiter = 1000, e = 1e-15) {
 
   # Get the initial estimate of the solution.
   x <- log(x0 + e)
 
   # Run DAAREM.
-  out <- daarem(x,fixptfn,objfn)
+  out <- suppressWarnings(daarem(x,mixdaarem.update,mixdaarem.objective,L,e,
+                                 control = list(maxiter = numiter,tol = 0)))
+
+  return(out)
+}
+
+# This implements the fixptfn argument for the daarem call above.
+mixdaarem.update <- function (x, L, e) {
+  x <- softmax(x)
+  x <- mixem.update(L,x,e)
+  return(log(x))
+}
+
+# This implements the objfn argument for the daarem call above.
+mixdaarem.objective <- function (x, L, e) {
+  return(mixobjective(L,softmax(x),e))
 }
 
 # Perform a single expectation maximization (EM) update.
@@ -65,7 +81,7 @@ mixem.update <- function (L, x, e) {
 
 # Compute the value of the log-likelihood at x; e is a vector in which
 # the entries can be set to small, positive numbers, or to zero.
-mixobjective <- function (L, x, e) {
+mixobjective <- function (L, x, e = 1e-15) {
  y <- drop(L %*% x) + e
  if (all(y > 0))
    return(sum(log(y)))
