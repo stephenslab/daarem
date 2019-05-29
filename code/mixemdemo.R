@@ -44,8 +44,8 @@ pdat <-
   rbind(data.frame(iter = 1:1000,dist = f - fit1$value,method = "EM"),
         data.frame(iter = 1:1000,dist = f - fit2$value,method = "DAAREM"))
 p <- ggplot(pdat,aes(x = iter,y = dist,col = method)) +
-    geom_line(size = 1) +
-    scale_y_continuous(trans = "log10",breaks = 10^seq(-4,4)) +
-    scale_color_manual(values = c("darkorange","dodgerblue")) +
-    labs(x = "iteration","distance from solution")
+  geom_line(size = 1) +
+  scale_y_continuous(trans = "log10",breaks = 10^seq(-4,4)) +
+  scale_color_manual(values = c("darkorange","dodgerblue")) +
+  labs(x = "iteration",y = "distance from solution")
 print(p)
