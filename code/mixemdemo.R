@@ -8,15 +8,23 @@ source("mixem.R")
 # ---------
 cat("Loading data.\n")
 load("../data/mixdata.RData")
-k <- ncol(L)
+
+# Set initial estimate of mixture proportions.
+k  <- ncol(L)
+x0 <- rep(1/k,k)
 
 # RUN BASIC EM
 # ------------
 cat("Fitting mixture model with basic EM method.\n")
-x0   <- rep(1/k,k)
 out <- system.time(fit1 <- mixem(L,w,x0,numiter = 1000))
-cat("Computation took %0.2f seconds.\n",out["elapsed"])
+cat(sprintf("Computation took %0.2f seconds.\n",out["elapsed"]))
+cat(sprintf("Objective value at EM estimate is %0.12f.\n",fit1$value))
+
+stop()
 
 # RUN ACCELERATED EM
 # ------------------
-cat("Fitting mixture model with accelerated EM method.\n")
+cat("Fitting mixture model with accelerated EM method (DAAREM).\n")
+# TO DO.
+cat(sprintf("Computation took %0.2f seconds.\n",out["elapsed"]))
+cat(sprintf("Objective value at DAAREM estimate is %0.12f.\n",fit2$value))
