@@ -39,8 +39,8 @@ mixem <- function (L, x0, numiter = 1000, e = 1e-15) {
 mixdaarem <- function (L, x0, numiter = 1000, order = 10, e = 1e-15) {
 
   # Get the initial estimate of the solution.
-  x <- log(x0 + e)
-
+  x <- x0
+    
   # Scale the correction factor (e) by the maximum value of each row
   # of the matrix (L). Therefore, we end up with a separate correction
   # factor for each row of L.
@@ -53,20 +53,22 @@ mixdaarem <- function (L, x0, numiter = 1000, order = 10, e = 1e-15) {
 
   # Return the estimate of the solution and the value of the objective
   # at each iteration.
-  return(list(x = softmax(out$par),value = out$objfn.track[-1]))
+  return(list(x = project.iterate(out$par),value = out$objfn.track[-1]))
+}
+
+# Project the iterate so that it lies on the simplex.
+project.iterate <- function (x) {
+  x <- pmax(x,0)
+  return(x/sum(x))  
 }
 
 # This implements the fixptfn argument for the daarem call above.
-mixdaarem.update <- function (x, L, e) {
-  x <- softmax(x)
-  x <- mixem.update(L,x,e)
-  return(log(x))
-}
+mixdaarem.update <- function (x, L, e)
+  mixem.update(L,project.iterate(x),e)
 
 # This implements the objfn argument for the daarem call above.
-mixdaarem.objective <- function (x, L, e) {
-  return(mixobjective(L,softmax(x),e))
-}
+mixdaarem.objective <- function (x, L, e)
+  mixobjective(L,project.iterate(x),e)
 
 # Perform a single expectation maximization (EM) update.
 mixem.update <- function (L, x, e) {
