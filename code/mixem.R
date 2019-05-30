@@ -49,7 +49,8 @@ mixdaarem <- function (L, x0, numiter = 1000, order = 10, e = 1e-15) {
   # Run DAAREM.
   out <- suppressWarnings(
     daarem(x,mixdaarem.update,mixdaarem.objective,L,e,
-           control = list(maxiter = numiter,order = order,tol = 0)))
+           control = list(maxiter = numiter,order = order,tol = 0,
+                          mon.tol = 0.05,kappa = 20,alpha = 1.2)))
 
   # Return the estimate of the solution and the value of the objective
   # at each iteration.
