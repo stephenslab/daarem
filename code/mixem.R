@@ -18,9 +18,6 @@ mixem <- function (L, x0, numiter = 1000, e = 1e-15) {
   # Iterate the E and M steps.
   for (i in 1:numiter) {
 
-    # Store the current estimate of the solution.
-    x0 <- x
-
     # Update the solution.
     x <- mixem.update(L,x,e)
     
@@ -60,7 +57,7 @@ mixdaarem <- function (L, x0, numiter = 1000, order = 10, e = 1e-15) {
 # Project the iterate so that it lies on the simplex.
 project.iterate <- function (x) {
   x <- pmax(x,0)
-  return(x/sum(x))  
+  return(x/sum(x))
 }
 
 # This implements the fixptfn argument for the daarem call above.
