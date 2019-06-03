@@ -40,13 +40,34 @@ y <- drop(X %*% b + se*rnorm(n))
 y <- y - mean(y)
 
 # Set initial estimate of mixture proportions.
-b0 <-  
+b0 <- rep(0,p)
 
-# FIT RIDGE REGRESSION MODEL
-# --------------------------
+# RUN BASIC CO-ORDINATE ASCENT UPDATES
+# ------------------------------------
 # TO DO: Explain here what these lines of code do.
-cat("Fitting ridge regression via basic co-ordinate ascent updates.\n")
-out <- system.time(fit1 <- ridge(X,y,s0))
+cat("Fitting ridge regression with basic co-ordinate ascent updates.\n")
+out <- system.time(fit1 <- ridge(X,y,b0,s0,numiter = 150))
 f1  <- ridge.objective(X,y,fit1$b,s0)
 cat(sprintf("Computation took %0.2f seconds.\n",out["elapsed"]))
 cat(sprintf("Objective value at solution is %0.12f.\n",f1))
+
+# RUN ACCELERATED CO-ORDINATE ASCENT UPDATES
+cat("Fitting ridge regression with accelerated co-ordinate ascent updates.\n")
+out <- system.time(fit2 <- daarridge(X,y,b0,s0,numiter = 150))
+f2  <- ridge.objective(X,y,fit2$b,s0)
+cat(sprintf("Computation took %0.2f seconds.\n",out["elapsed"]))
+cat(sprintf("Objective value at solution is %0.12f.\n",f2))
+
+# PLOT IMPROVEMENT IN SOLUTION OVER TIME
+# --------------------------------------
+bhat <- drop(solve(t(X) %*% X + diag(p)/s0,t(X) %*% y))
+f    <- ridge.objective(X,y,bhat,s0)
+pdat <-
+  rbind(data.frame(iter = 1:150,dist = f - fit1$value,method = "basic"),
+        data.frame(iter = 1:150,dist = f - fit2$value,method = "accelerated"))
+p <- ggplot(pdat,aes(x = iter,y = dist,col = method)) +
+  geom_line(size = 1) +
+  scale_y_continuous(trans = "log10",breaks = 10^seq(-8,4)) +
+  scale_color_manual(values = c("darkorange","dodgerblue")) +
+  labs(x = "iteration",y = "distance from solution")
+print(p)
