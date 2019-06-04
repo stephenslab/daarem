@@ -319,16 +319,20 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabdaaremtreea79dd49064462a281101b5425afad24231741a4btargetblanka79dd49a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/daarem/tree/a79dd49064462a281101b5425afad24231741a4b" target="_blank">a79dd49</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabdaaremtree3d5bcee9384353cbcff3a6b55557e5819dcbea39targetblank3d5bceea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/daarem/tree/3d5bcee9384353cbcff3a6b55557e5819dcbea39" target="_blank">3d5bcee</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabdaaremtreea79dd49064462a281101b5425afad24231741a4btargetblanka79dd49a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabdaaremtree3d5bcee9384353cbcff3a6b55557e5819dcbea39targetblank3d5bceea" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 </p>
 <pre><code>
-working directory clean
+Untracked files:
+    Untracked:  analysis/mixem.R
+    Untracked:  analysis/temp.R
+    Untracked:  analysis/temp.R~
+
 </code></pre>
 <p>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
@@ -366,6 +370,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/daarem/blob/3d5bcee9384353cbcff3a6b55557e5819dcbea39/analysis/mixem.Rmd" target="_blank">3d5bcee</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-06-04
+</td>
+<td>
+wflow_publish(“mixem.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/daarem/615197f80ae0275f3e987e399176627b95807f26/docs/mixem.html" target="_blank">615197f</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-06-04
+</td>
+<td>
+A few more small improvements to the “mixem” analysis.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -503,18 +541,18 @@ cat(sprintf(&quot;Loaded %d x %d data matrix.\n&quot;,n,m))
 f1  &lt;- mixobjective(L,fit1$x)
 cat(sprintf(&quot;Computation took %0.2f seconds.\n&quot;,out[&quot;elapsed&quot;]))
 cat(sprintf(&quot;Log-likelihood at EM estimate is %0.12f.\n&quot;,f1))
-# Computation took 11.01 seconds.
+# Computation took 9.38 seconds.
 # Log-likelihood at EM estimate is -59912.068371303445.</code></pre>
 </div>
 <div id="run-accelerated-em" class="section level2">
 <h2>Run accelerated EM</h2>
 <p>Re-run the EM updates, this time using DAAREM to accelerate convergence toward the solution.</p>
-<pre class="r"><code>out &lt;- system.time(fit2 &lt;- mixdaarem(L,x0,numiter = 200,order = 4))
+<pre class="r"><code>out &lt;- system.time(fit2 &lt;- mixdaarem(L,x0,numiter = 200))
 f2  &lt;- mixobjective(L,fit2$x)
 cat(sprintf(&quot;Computation took %0.2f seconds.\n&quot;,out[&quot;elapsed&quot;]))
 cat(sprintf(&quot;Objective value at DAAREM estimate is %0.12f.\n&quot;,f2))
-# Computation took 6.58 seconds.
-# Objective value at DAAREM estimate is -59895.960281994718.</code></pre>
+# Computation took 7.03 seconds.
+# Objective value at DAAREM estimate is -59895.960056733769.</code></pre>
 <p>Observe that the this second estimate has a much higher likelihood.</p>
 </div>
 <div id="plot-improvement-in-solution-over-time" class="section level2">
@@ -579,7 +617,7 @@ Peter Carbonetto
 </table>
 </div>
 </div>
-<p>From this plot, we see that the accelerated EM methods gets much closer to the solution, although it seems to “plateau” after about 100 iterations. Nonetheless, it is much improved over the basic EM algorithm.</p>
+<p>From this plot, we see that the accelerated EM method gets much closer to the solution, although it seems to “plateau” after about 100 iterations. Nonetheless, it is much improved over the basic EM algorithm.</p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
