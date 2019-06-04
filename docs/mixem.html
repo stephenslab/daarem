@@ -319,10 +319,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabdaaremtree4743aea5873609e4cf7362fef0674b70ad470648targetblank4743aeaa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/daarem/tree/4743aea5873609e4cf7362fef0674b70ad470648" target="_blank">4743aea</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabdaaremtreea79dd49064462a281101b5425afad24231741a4btargetblanka79dd49a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/daarem/tree/a79dd49064462a281101b5425afad24231741a4b" target="_blank">a79dd49</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabdaaremtree4743aea5873609e4cf7362fef0674b70ad470648targetblank4743aeaa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabdaaremtreea79dd49064462a281101b5425afad24231741a4btargetblanka79dd49a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -366,6 +366,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/daarem/blob/a79dd49064462a281101b5425afad24231741a4b/analysis/mixem.Rmd" target="_blank">a79dd49</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-06-04
+</td>
+<td>
+wflow_publish(“mixem.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/daarem/52e323dbede87f54027dbb1162ccf9e5ae3e912f/docs/mixem.html" target="_blank">52e323d</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-06-04
+</td>
+<td>
+Made some revisions to the mixem analysis.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -441,7 +475,7 @@ wflow_publish(“index.Rmd”)
 </div>
 </div>
 </div>
-<p>Here we illustrate using <a href="https://doi.org/10.1080/10618600.2019.1594835">DAAREM method</a> to accelerate a very simple EM algorithm—he E and M steps are implemented in only three lines of R code—for computing maximum-likelihood estimates of mixture proportions in a mixture model.</p>
+<p>Here we illustrate the use of <a href="https://doi.org/10.1080/10618600.2019.1594835">DAAREM</a> to accelerate a very simple EM algorithm—the E and M steps are implemented in three lines of R code—for computing maximum-likelihood estimates of mixture proportions in a mixture model.</p>
 <div id="set-up-environment" class="section level2">
 <h2>Set up environment</h2>
 <p>Load some packages and function definitions used in the example below.</p>
@@ -465,13 +499,11 @@ cat(sprintf(&quot;Loaded %d x %d data matrix.\n&quot;,n,m))
 <div id="run-basic-em-updates" class="section level2">
 <h2>Run basic EM updates</h2>
 <p>Compute maximum-likelihood estimates of the mixture proportions by running 200 iterations of the standard EM updates. Note that the E and M steps are very simple, and easy to implement in R; in particular, in function <code>mixem.update</code>, the E step is implemented in 2 lines of R code, and the M step requires only one more line of code.</p>
-<pre class="r"><code>cat(&quot;Fitting mixture model with basic EM method.\n&quot;)
-out &lt;- system.time(fit1 &lt;- mixem(L,x0,numiter = 200))
+<pre class="r"><code>out &lt;- system.time(fit1 &lt;- mixem(L,x0,numiter = 200))
 f1  &lt;- mixobjective(L,fit1$x)
 cat(sprintf(&quot;Computation took %0.2f seconds.\n&quot;,out[&quot;elapsed&quot;]))
 cat(sprintf(&quot;Log-likelihood at EM estimate is %0.12f.\n&quot;,f1))
-# Fitting mixture model with basic EM method.
-# Computation took 10.96 seconds.
+# Computation took 11.01 seconds.
 # Log-likelihood at EM estimate is -59912.068371303445.</code></pre>
 </div>
 <div id="run-accelerated-em" class="section level2">
@@ -481,13 +513,13 @@ cat(sprintf(&quot;Log-likelihood at EM estimate is %0.12f.\n&quot;,f1))
 f2  &lt;- mixobjective(L,fit2$x)
 cat(sprintf(&quot;Computation took %0.2f seconds.\n&quot;,out[&quot;elapsed&quot;]))
 cat(sprintf(&quot;Objective value at DAAREM estimate is %0.12f.\n&quot;,f2))
-# Computation took 6.42 seconds.
+# Computation took 6.58 seconds.
 # Objective value at DAAREM estimate is -59895.960281994718.</code></pre>
 <p>Observe that the this second estimate has a much higher likelihood.</p>
 </div>
 <div id="plot-improvement-in-solution-over-time" class="section level2">
 <h2>Plot improvement in solution over time</h2>
-<p>This plot shows the improvement in the solution over time for the two co-ordinate ascent algorithms: the vertical axis (“distance to best solution”) shows the difference between the largest log-likelihood obtained, and the log-likelihood at the “true” solution (computed using <a href="https://github.com/stephenslab/mixsqp">mixsqp</a>).</p>
+<p>This plot shows the improvement in the solution over time for the two co-ordinate ascent algorithms: the vertical axis (“distance to best solution”) shows the difference between the largest log-likelihood obtained, and the log-likelihood at the “gold-standard” solution. The gold-standard solution was computed using <a href="https://github.com/stephenslab/mixsqp">mixsqp</a>.</p>
 <pre class="r"><code>f    &lt;- mixobjective(L,x)
 pdat &lt;-
   rbind(data.frame(iter = 1:200,dist = f - fit1$value,method = &quot;EM&quot;),
@@ -523,6 +555,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/daarem/blob/52e323dbede87f54027dbb1162ccf9e5ae3e912f/docs/figure/mixem.Rmd/plot-iter-vs-objective-1.png" target="_blank">52e323d</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-06-04
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/daarem/blob/936cdbbd0013c1668665298eb40d0ae5e276e0fe/docs/figure/mixem.Rmd/plot-iter-vs-objective-1.png" target="_blank">936cdbb</a>
 </td>
 <td>
@@ -536,7 +579,7 @@ Peter Carbonetto
 </table>
 </div>
 </div>
-<p>From this plot, we see that the accelerated gets much closer to the solution, although it “plateaus” after about 100 iterations, so it never quite converges to the solution. Nonetheless, it is much improved over the basic EM algorithm.</p>
+<p>From this plot, we see that the accelerated EM methods gets much closer to the solution, although it seems to “plateau” after about 100 iterations. Nonetheless, it is much improved over the basic EM algorithm.</p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
