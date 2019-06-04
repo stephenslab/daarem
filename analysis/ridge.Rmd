@@ -1,15 +1,15 @@
 ---
-title: ""
+title: "Accelerating co-ordinate ascent updates for linear regression using DAAREM"
 date: June 4, 2019
 site: workflowr::wflow_site
 output: workflowr::wflow_html
 ---
 
-In this small demo, we show how the [DAAREM method][daarem-paper] can
-be used to accelerate a simple co-ordinate ascent algorithm for
-computing *maximum a posteriori* estimates of the coefficients in a
-linear regression with a simple normal prior on the coefficients
-("ridge regression").
+In this small demonstration, we show how the
+[DAAREM method][daarem-paper] can be used to accelerate a very simple
+co-ordinate ascent algorithm for computing the *maximum a posteriori*
+estimate of the coefficients in a linear regression with a simple
+normal prior on the coefficients (*i.e.*, ridge regression).
 
 ```{r knitr, echo=FALSE}
 knitr::opts_chunk$set(comment = "#",results = "hold",collapse = TRUE,
@@ -18,18 +18,22 @@ knitr::opts_chunk$set(comment = "#",results = "hold",collapse = TRUE,
 
 ## Analysis settings
 
-These variables specify how the data are generated (`n` is the number
+These variables specify how the data are generated: `n` is the number
 of simulated samples, `p` is the number of simulated predictors, `na`
 is the number of simulated predictors that have a nonzero effect, `se`
-is the variance oft he residual), and the prior on the regression
-coefficients (the prior is normal with zero mean and standard
-deviation `s0`).
+is the variance of the residual.
 
-```{r analysis-settings}
+```{r sim-settings}
 n  <- 200 
 p  <- 500
 na <- 10
 se <- 2
+```
+
+This specifies the prior on the regression coefficients: it is normal
+with zero mean and standard deviation `s0`.
+
+```{r model-settings}
 s0 <- 1/se
 ```
 
@@ -37,7 +41,7 @@ s0 <- 1/se
 
 Load some packages and function definitions used in the example below.
 
-```{r load-pkgs} 
+```{r load-pkgs, warning=FALSE, message=FALSE}
 library(MASS)
 library(daarem)
 library(ggplot2)
@@ -55,40 +59,41 @@ set.seed(1)
 
 ## Simulate data
 
-Simulate the predictors.
+Simulate predictors with "decaying" correlations.
 
-```{r}
+```{r sim-x}
 X <- simulate_predictors_decaying_corr(n,p,s = 0.5)
 X <- scale(X,center = TRUE,scale = FALSE)
 ```
 
-Generate additive effects for the markers so that exactly na of them have
+Generate additive effects for the markers so that exactly `na` of them have
 a nonzero effect on the trait.
 
-```{r}
+```{r sim-beta}
 i    <- sample(p,na)
 b    <- rep(0,p)
 b[i] <- rnorm(na)
 ```
 
-Simulate the continuous outcomes.
+Simulate the continuous outcomes, and center them.
 
-```{r}
+```{r sim-y}
 y <- drop(X %*% b + se*rnorm(n))
 y <- y - mean(y)
 ```
 
-Set initial estimate of mixture proportions.
+## Run basic co-ordinate ascent updates
 
-```{r}
+Set the initial estimate of the coefficients.
+
+```{r init-estimate}
 b0 <- rep(0,p)
 ```
 
-## Run basic co-ordinate ascent updates
+Fit the ridge regression model by running 100 iterations of the basic
+co-ordinate ascent updates.
 
-Fit ridge regression with basic co-ordinate ascent updates.
-
-```{r}
+```{r fit-ridge}
 out <- system.time(fit1 <- ridge(X,y,b0,s0,numiter = 100))
 f1  <- ridge.objective(X,y,fit1$b,s0)
 cat(sprintf("Computation took %0.2f seconds.\n",out["elapsed"]))
@@ -97,9 +102,10 @@ cat(sprintf("Objective value at solution is %0.12f.\n",f1))
 
 ## Run accelerated co-ordinate ascent updates
 
-Fitting ridge regression with accelerated co-ordinate ascent updates
+Fit the ridge regression model again, this time using DAAREM to speed
+up the co-ordinate ascent algorithm.
 
-```{r}
+```{r fit-ridge-2}
 out <- system.time(fit2 <- daarridge(X,y,b0,s0,numiter = 100))
 f2  <- ridge.objective(X,y,fit2$b,s0)
 cat(sprintf("Computation took %0.2f seconds.\n",out["elapsed"]))
@@ -108,8 +114,8 @@ cat(sprintf("Objective value at solution is %0.12f.\n",f2))
 
 ## Plot improvement in solution over time
 
-```{r fig.height=5, fig.width=5}
-bhat <- drop(solve(t(X) %*% X + diag(p)/s0,t(X) %*% y))
+```{r fig.height=4, fig.width=6}
+bhat <- drop(solve(t(X) %*% X + diag(p)/s0^2,t(X) %*% y))
 f    <- ridge.objective(X,y,bhat,s0)
 pdat <-
   rbind(data.frame(iter = 1:100,dist = f - fit1$value,method = "basic"),
