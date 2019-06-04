@@ -35,9 +35,6 @@ mixem <- function (L, x0, numiter = 1000, e = 1e-15) {
 # algorithm.
 mixdaarem <- function (L, x0, numiter = 1000, order = 10, e = 1e-15) {
 
-  # Get the initial estimate of the solution.
-  x <- x0
-    
   # Scale the correction factor (e) by the maximum value of each row
   # of the matrix (L). Therefore, we end up with a separate correction
   # factor for each row of L.
@@ -45,7 +42,7 @@ mixdaarem <- function (L, x0, numiter = 1000, order = 10, e = 1e-15) {
 
   # Run DAAREM.
   out <- suppressWarnings(
-    daarem(x,mixdaarem.update,mixdaarem.objective,L,e,
+    daarem(x0,mixdaarem.update,mixdaarem.objective,L,e,
            control = list(maxiter = numiter,order = order,tol = 0,
                           mon.tol = 0.05,kappa = 20,alpha = 1.2)))
 
