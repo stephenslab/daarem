@@ -5,9 +5,9 @@ site: workflowr::wflow_site
 output: workflowr::wflow_html
 ---
 
-Here we illustrate using [DAAREM method][daarem-paper] to accelerate a
-very simple EM algorithm---he E and M steps are implemented in only
-three lines of R code---for computing maximum-likelihood estimates of
+Here we illustrate the use of [DAAREM][daarem-paper] to accelerate a
+very simple EM algorithm---the E and M steps are implemented in three
+lines of R code---for computing maximum-likelihood estimates of
 mixture proportions in a mixture model.
 
 ```{r knitr, echo=FALSE}
@@ -54,7 +54,6 @@ function `mixem.update`, the E step is implemented in 2 lines of R
 code, and the M step requires only one more line of code.
 
 ```{r fit-em}
-cat("Fitting mixture model with basic EM method.\n")
 out <- system.time(fit1 <- mixem(L,x0,numiter = 200))
 f1  <- mixobjective(L,fit1$x)
 cat(sprintf("Computation took %0.2f seconds.\n",out["elapsed"]))
@@ -80,8 +79,8 @@ Observe that the this second estimate has a much higher likelihood.
 This plot shows the improvement in the solution over time for the two
 co-ordinate ascent algorithms: the vertical axis ("distance to best
 solution") shows the difference between the largest log-likelihood
-obtained, and the log-likelihood at the "true" solution (computed
-using [mixsqp][mixsqp]).
+obtained, and the log-likelihood at the "gold-standard" solution. The
+gold-standard solution was computed using [mixsqp][mixsqp].
 
 ```{r plot-iter-vs-objective, fig.height=4, fig.width=6}
 f    <- mixobjective(L,x)
@@ -96,10 +95,10 @@ p <- ggplot(pdat,aes(x = iter,y = dist,col = method)) +
 print(p)
 ```
 
-From this plot, we see that the accelerated gets much closer to the
-solution, although it "plateaus" after about 100 iterations, so it
-never quite converges to the solution. Nonetheless, it is much
-improved over the basic EM algorithm.
+From this plot, we see that the accelerated EM methods gets much
+closer to the solution, although it seems to "plateau" after about 100
+iterations. Nonetheless, it is much improved over the basic EM
+algorithm.
 
 [daarem-paper]: https://doi.org/10.1080/10618600.2019.1594835
 [mixsqp]: https://github.com/stephenslab/mixsqp
