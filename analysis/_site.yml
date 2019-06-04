@@ -1,17 +1,14 @@
-name: "daarem"
+name: daarem demos
 output_dir: ../docs
 navbar:
-  title: "daarem"
-  left:
-  - text: Home
-    href: index.html
-  - text: About
-    href: about.html
-  - text: License
-    href: license.html
+  title: daarem demos
+  right:
+    - text: source
+      href: https://github.com/stephenslab/daarem
 output:
   workflowr::wflow_html:
-    toc: yes
-    toc_float: yes
-    theme: cosmo
+    toc: false
+    theme: readable
     highlight: textmate
+    code_folding: none
+    self_contained: no
