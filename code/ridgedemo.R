@@ -46,14 +46,15 @@ b0 <- rep(0,p)
 # ------------------------------------
 # TO DO: Explain here what these lines of code do.
 cat("Fitting ridge regression with basic co-ordinate ascent updates.\n")
-out <- system.time(fit1 <- ridge(X,y,b0,s0,numiter = 150))
+out <- system.time(fit1 <- ridge(X,y,b0,s0,numiter = 100))
 f1  <- ridge.objective(X,y,fit1$b,s0)
 cat(sprintf("Computation took %0.2f seconds.\n",out["elapsed"]))
 cat(sprintf("Objective value at solution is %0.12f.\n",f1))
 
 # RUN ACCELERATED CO-ORDINATE ASCENT UPDATES
+# ------------------------------------------
 cat("Fitting ridge regression with accelerated co-ordinate ascent updates.\n")
-out <- system.time(fit2 <- daarridge(X,y,b0,s0,numiter = 150))
+out <- system.time(fit2 <- daarridge(X,y,b0,s0,numiter = 100))
 f2  <- ridge.objective(X,y,fit2$b,s0)
 cat(sprintf("Computation took %0.2f seconds.\n",out["elapsed"]))
 cat(sprintf("Objective value at solution is %0.12f.\n",f2))

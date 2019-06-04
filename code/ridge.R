@@ -33,7 +33,7 @@ daarridge <- function (X, y, b0, s0, numiter = 100, order = 10) {
   out <- suppressWarnings(
     daarem(b,daarridge.update,daarridge.objective,X,y,s0,
            control = list(maxiter = numiter,order = order,tol = 0,
-                          mon.tol = 0.05,kappa = 20,alpha = 1.2)))
+                          mon.tol = 0,kappa = 20,alpha = 1.2)))
 
   # Return the estimate of the regression coefficients ("b") and the
   # value of the objective at each iteration ("value").
