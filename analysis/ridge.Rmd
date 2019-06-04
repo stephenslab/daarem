@@ -91,7 +91,9 @@ b0 <- rep(0,p)
 ```
 
 Fit the ridge regression model by running 100 iterations of the basic
-co-ordinate ascent updates.
+co-ordinate ascent updates. Note that the co-ordinate ascent updates
+are very simple, and are easily implemented in a single line of R
+code; see the code for the `ridge.update` function.
 
 ```{r fit-ridge}
 out <- system.time(fit1 <- ridge(X,y,b0,s0,numiter = 100))
