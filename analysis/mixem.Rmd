@@ -66,7 +66,7 @@ Re-run the EM updates, this time using DAAREM to accelerate
 convergence toward the solution.
 
 ```{r fit-daarem}
-out <- system.time(fit2 <- mixdaarem(L,x0,numiter = 200,order = 4))
+out <- system.time(fit2 <- mixdaarem(L,x0,numiter = 200))
 f2  <- mixobjective(L,fit2$x)
 cat(sprintf("Computation took %0.2f seconds.\n",out["elapsed"]))
 cat(sprintf("Objective value at DAAREM estimate is %0.12f.\n",f2))
@@ -95,7 +95,7 @@ p <- ggplot(pdat,aes(x = iter,y = dist,col = method)) +
 print(p)
 ```
 
-From this plot, we see that the accelerated EM methods gets much
+From this plot, we see that the accelerated EM method gets much
 closer to the solution, although it seems to "plateau" after about 100
 iterations. Nonetheless, it is much improved over the basic EM
 algorithm.
