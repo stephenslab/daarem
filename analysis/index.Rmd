@@ -12,6 +12,7 @@ ascent updates for fitting simple and not-so-simple models.
 
 Follow the links below to browse the demonstrations.
 
-+ [Evaluation of the improved EM algorithm on a toy data set.](smalldemo.html)
++ [Accelerating co-ordinate ascent updates for linear regression using
+DAAREM.](ridge.html)
 
 [daarem-paper]: https://doi.org/10.1080/10618600.2019.1594835
