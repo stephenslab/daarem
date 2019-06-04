@@ -1,44 +1,78 @@
-# A small script to illustrate application of the DAAREM method for
-# computing maximum-likelihood estimates of mixture proportions in a
-# mixture model.
+---
+title: "Accelerating co-ordinate ascent updates for linear regression using DAAREM"
+date: June 4, 2019
+site: workflowr::wflow_site
+output: workflowr::wflow_html
+---
 
-# SET UP ENVIRONMENT
-# ------------------
+A small script to illustrate application of the DAAREM method for
+computing maximum-likelihood estimates of mixture proportions in a
+mixture model.
+
+```{r knitr, echo=FALSE}
+knitr::opts_chunk$set(comment = "#",results = "hold",collapse = TRUE,
+                      fig.align = "center")
+```
+
+## Set up environment
+
+Load some packages and function definitions used in the example below.
+
+```{r load-pkgs, warning=FALSE, message=FALSE}
 library(ggplot2)
 library(cowplot)
 library(daarem)
-source("misc.R")
-source("mixem.R")
+source("../code/misc.R")
+source("../code/mixem.R")
+```
 
-# LOAD DATA
-# ---------
-cat("Loading data.\n")
+## Load data set
+
+TO DO: Add text here.
+
+```{r load-data}
 load("../data/mixdata.RData")
 n <- nrow(L)
 m <- ncol(L)
 cat(sprintf("Loaded %d x %d data matrix.\n",n,m))
+```
 
-# Set initial estimate of mixture proportions.
+Set the initial estimate of the mixture proportions.
+
+```{r}
 x0 <- rep(1/m,m)
+```
 
-# RUN BASIC EM
-# ------------
+## Run basic EM updates
+
+Compute maximum-likelihood estimates of the mixture proportions by
+running 200 iterations of the EM updates.
+
+```{r fit-em}
 cat("Fitting mixture model with basic EM method.\n")
 out <- system.time(fit1 <- mixem(L,x0,numiter = 200))
 f1  <- mixobjective(L,fit1$x)
 cat(sprintf("Computation took %0.2f seconds.\n",out["elapsed"]))
 cat(sprintf("Log-likelihood at EM estimate is %0.12f.\n",f1))
+```
 
-# RUN ACCELERATED EM
-# ------------------
-cat("Fitting mixture model with accelerated EM method (DAAREM).\n")
+## Run accelerated EM
+
+Re-run the EM updates, this time using DAAREM to accelerate
+convergence toward the solution.
+
+```{r fit-daarem}
 out <- system.time(fit2 <- mixdaarem(L,x0,numiter = 200))
 f2  <- mixobjective(L,fit2$x)
 cat(sprintf("Computation took %0.2f seconds.\n",out["elapsed"]))
 cat(sprintf("Objective value at DAAREM estimate is %0.12f.\n",f2))
+```
 
-# PLOT IMPROVEMENT IN SOLUTION OVER TIME
-# --------------------------------------
+## Plot improvement in solution over time
+
+TO DO: Add text here.
+
+```{r plot-iter-vs-objective, fig.height=4, fig.width=6}
 f    <- mixobjective(L,x)
 pdat <-
   rbind(data.frame(iter = 1:200,dist = f - fit1$value,method = "EM"),
@@ -49,3 +83,4 @@ p <- ggplot(pdat,aes(x = iter,y = dist,col = method)) +
   scale_color_manual(values = c("darkorange","dodgerblue")) +
   labs(x = "iteration",y = "distance from solution")
 print(p)
+```
