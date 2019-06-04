@@ -1,74 +1,125 @@
-# TO DO: Explain here what this script does, and how to use it.
+---
+title: ""
+date: June 4, 2019
+site: workflowr::wflow_site
+output: workflowr::wflow_html
+---
 
-# SCRIPT PARAMETERS
-# -----------------
-# TO DO: Explain here what these parameters are for.
+In this small demo, we show how the [DAAREM method][daarem-paper] can
+be used to accelerate a simple co-ordinate ascent algorithm for
+computing *maximum a posteriori* estimates of the coefficients in a
+linear regression with a simple normal prior on the coefficients
+("ridge regression").
+
+```{r knitr, echo=FALSE}
+knitr::opts_chunk$set(comment = "#",results = "hold",collapse = TRUE,
+                      fig.align = "center")
+```
+
+## Analysis settings
+
+These variables specify how the data are generated (`n` is the number
+of simulated samples, `p` is the number of simulated predictors, `na`
+is the number of simulated predictors that have a nonzero effect, `se`
+is the variance oft he residual), and the prior on the regression
+coefficients (the prior is normal with zero mean and standard
+deviation `s0`).
+
+```{r analysis-settings}
 n  <- 200 
 p  <- 500
 na <- 10
 se <- 2
 s0 <- 1/se
+```
 
-# SET UP ENVIRONMENT
-# ------------------
+## Set up environment
+
+Load some packages and function definitions used in the example below.
+
+```{r load-pkgs} 
 library(MASS)
 library(daarem)
 library(ggplot2)
 library(cowplot)
-source("misc.R")
-source("datasim.R")
-source("ridge.R")
+source("../code/misc.R")
+source("../code/datasim.R")
+source("../code/ridge.R")
+```
 
-# Initialize the sequence of pseudorandom numbers.
+Initialize the sequence of pseudorandom numbers.
+
+```{set-seed}
 set.seed(1)
+```
 
-# SIMULATE DATA
-# -------------
-# Simulate the predictors.
-cat("Simulating data.\n")
+## Simulate data
+
+Simulate the predictors.
+
+```{r}
 X <- simulate_predictors_decaying_corr(n,p,s = 0.5)
 X <- scale(X,center = TRUE,scale = FALSE)
+```
 
-# Generate additive effects for the markers so that exactly na of them have
-# a nonzero effect on the trait.
+Generate additive effects for the markers so that exactly na of them have
+a nonzero effect on the trait.
+
+```{r}
 i    <- sample(p,na)
 b    <- rep(0,p)
 b[i] <- rnorm(na)
+```
 
-# Simulate the continuous outcomes.
+Simulate the continuous outcomes.
+
+```{r}
 y <- drop(X %*% b + se*rnorm(n))
 y <- y - mean(y)
+```
 
-# Set initial estimate of mixture proportions.
+Set initial estimate of mixture proportions.
+
+```{r}
 b0 <- rep(0,p)
+```
 
-# RUN BASIC CO-ORDINATE ASCENT UPDATES
-# ------------------------------------
-# TO DO: Explain here what these lines of code do.
-cat("Fitting ridge regression with basic co-ordinate ascent updates.\n")
+## Run basic co-ordinate ascent updates
+
+Fit ridge regression with basic co-ordinate ascent updates.
+
+```{r}
 out <- system.time(fit1 <- ridge(X,y,b0,s0,numiter = 100))
 f1  <- ridge.objective(X,y,fit1$b,s0)
 cat(sprintf("Computation took %0.2f seconds.\n",out["elapsed"]))
 cat(sprintf("Objective value at solution is %0.12f.\n",f1))
+```
 
-# RUN ACCELERATED CO-ORDINATE ASCENT UPDATES
-# ------------------------------------------
-cat("Fitting ridge regression with accelerated co-ordinate ascent updates.\n")
+## Run accelerated co-ordinate ascent updates
+
+Fitting ridge regression with accelerated co-ordinate ascent updates
+
+```{r}
 out <- system.time(fit2 <- daarridge(X,y,b0,s0,numiter = 100))
 f2  <- ridge.objective(X,y,fit2$b,s0)
 cat(sprintf("Computation took %0.2f seconds.\n",out["elapsed"]))
 cat(sprintf("Objective value at solution is %0.12f.\n",f2))
+```
 
-# PLOT IMPROVEMENT IN SOLUTION OVER TIME
-# --------------------------------------
+## Plot improvement in solution over time
+
+```{r fig.height=5, fig.width=5}
 bhat <- drop(solve(t(X) %*% X + diag(p)/s0,t(X) %*% y))
 f    <- ridge.objective(X,y,bhat,s0)
 pdat <-
-  rbind(data.frame(iter = 1:150,dist = f - fit1$value,method = "basic"),
-        data.frame(iter = 1:150,dist = f - fit2$value,method = "accelerated"))
+  rbind(data.frame(iter = 1:100,dist = f - fit1$value,method = "basic"),
+        data.frame(iter = 1:100,dist = f - fit2$value,method = "accelerated"))
 p <- ggplot(pdat,aes(x = iter,y = dist,col = method)) +
   geom_line(size = 1) +
   scale_y_continuous(trans = "log10",breaks = 10^seq(-8,4)) +
   scale_color_manual(values = c("darkorange","dodgerblue")) +
   labs(x = "iteration",y = "distance from solution")
 print(p)
+```
+
+[daarem-paper]: https://doi.org/10.1080/10618600.2019.1594835
