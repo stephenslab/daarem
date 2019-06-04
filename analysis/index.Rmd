@@ -12,6 +12,8 @@ ascent updates for fitting simple and not-so-simple models.
 
 Follow the links below to browse the demonstrations.
 
++ [Accelerating EM for computing maximum-likelihood estimates of mixture proportions.](mixem.html)
+
 + [Accelerating co-ordinate ascent updates for linear regression using
 DAAREM.](ridge.html)
 
