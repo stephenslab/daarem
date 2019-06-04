@@ -112,11 +112,26 @@ cat(sprintf("Computation took %0.2f seconds.\n",out["elapsed"]))
 cat(sprintf("Objective value at solution is %0.12f.\n",f2))
 ```
 
+We see that the DAAREM solution is better (it has a higher posterior
+value).
+
 ## Plot improvement in solution over time
 
-```{r fig.height=4, fig.width=6}
-bhat <- drop(solve(t(X) %*% X + diag(p)/s0^2,t(X) %*% y))
+Since the ridge estimate as a closed-form solution, we can easily
+compare the above estimates obtained via co-ordinate ascent against
+the actual solution.
+
+```{r ridge-solution}
+bhat <- drop(solve(t(X) %*% X + diag(rep(1/s0^2,p)),t(X) %*% y))
 f    <- ridge.objective(X,y,bhat,s0)
+```
+
+This plot shows the improvement in the solution over time for the two
+co-ordinate ascent algorithms: the vertical axis ("distance to best
+solution") shows the difference between the largest log-posterior
+obtained, and the log-posterior at the actual ridge solution (`bhat`).
+
+```{r plot-iter-vs-objective, fig.height=4, fig.width=6}
 pdat <-
   rbind(data.frame(iter = 1:100,dist = f - fit1$value,method = "basic"),
         data.frame(iter = 1:100,dist = f - fit2$value,method = "accelerated"))
@@ -127,5 +142,10 @@ p <- ggplot(pdat,aes(x = iter,y = dist,col = method)) +
   labs(x = "iteration",y = "distance from solution")
 print(p)
 ```
+
+From this plot, we see that the accelerated algorithm progresses much
+more rapidly toward the solution; after 100 iterations, it nearly
+recovers the actual ridge estimates, whereas the unaccelerated version
+is still very far away.
 
 [daarem-paper]: https://doi.org/10.1080/10618600.2019.1594835
