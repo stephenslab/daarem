@@ -1,11 +1,17 @@
 ---
-title: "Home"
+title: "A few illustrations of the daarem method"
+date: June 4, 2019
 site: workflowr::wflow_site
-output:
-  workflowr::wflow_html:
-    toc: false
-editor_options:
-  chunk_output_type: console
+output: workflowr::wflow_html
 ---
 
-Welcome to my research website.
+This workflowr site contains a few demonstrations of how the [DAAREM
+method][daarem-paper] ("Damped Anderson acceleration with restarts for
+EM") can be used to substantially accelerate EM and other co-ordinate
+ascent updates for fitting simple and not-so-simple models.
+
+Follow the links below to browse the demonstrations.
+
++ [Evaluation of the improved EM algorithm on a toy data set.](smalldemo.html)
+
+[daarem-paper]: https://doi.org/10.1080/10618600.2019.1594835
