@@ -5,9 +5,10 @@ site: workflowr::wflow_site
 output: workflowr::wflow_html
 ---
 
-A small script to illustrate application of the DAAREM method for
-computing maximum-likelihood estimates of mixture proportions in a
-mixture model.
+Here we illustrate using [DAAREM method][daarem-paper] to accelerate a
+very simple EM algorithm---he E and M steps are implemented in only
+three lines of R code---for computing maximum-likelihood estimates of
+mixture proportions in a mixture model.
 
 ```{r knitr, echo=FALSE}
 knitr::opts_chunk$set(comment = "#",results = "hold",collapse = TRUE,
@@ -28,7 +29,8 @@ source("../code/mixem.R")
 
 ## Load data set
 
-TO DO: Add text here.
+Load the 100,000 x 100 conditional likelihood matrix computed from a
+simulated data set.
 
 ```{r load-data}
 load("../data/mixdata.RData")
@@ -46,7 +48,10 @@ x0 <- rep(1/m,m)
 ## Run basic EM updates
 
 Compute maximum-likelihood estimates of the mixture proportions by
-running 200 iterations of the EM updates.
+running 200 iterations of the standard EM updates. Note that the E and
+M steps are very simple, and easy to implement in R; in particular, in
+function `mixem.update`, the E step is implemented in 2 lines of R
+code, and the M step requires only one more line of code.
 
 ```{r fit-em}
 cat("Fitting mixture model with basic EM method.\n")
@@ -62,15 +67,21 @@ Re-run the EM updates, this time using DAAREM to accelerate
 convergence toward the solution.
 
 ```{r fit-daarem}
-out <- system.time(fit2 <- mixdaarem(L,x0,numiter = 200))
+out <- system.time(fit2 <- mixdaarem(L,x0,numiter = 200,order = 4))
 f2  <- mixobjective(L,fit2$x)
 cat(sprintf("Computation took %0.2f seconds.\n",out["elapsed"]))
 cat(sprintf("Objective value at DAAREM estimate is %0.12f.\n",f2))
 ```
 
+Observe that the this second estimate has a much higher likelihood.
+
 ## Plot improvement in solution over time
 
-TO DO: Add text here.
+This plot shows the improvement in the solution over time for the two
+co-ordinate ascent algorithms: the vertical axis ("distance to best
+solution") shows the difference between the largest log-likelihood
+obtained, and the log-likelihood at the "true" solution (computed
+using [mixsqp][mixsqp]).
 
 ```{r plot-iter-vs-objective, fig.height=4, fig.width=6}
 f    <- mixobjective(L,x)
@@ -84,3 +95,11 @@ p <- ggplot(pdat,aes(x = iter,y = dist,col = method)) +
   labs(x = "iteration",y = "distance from solution")
 print(p)
 ```
+
+From this plot, we see that the accelerated gets much closer to the
+solution, although it "plateaus" after about 100 iterations, so it
+never quite converges to the solution. Nonetheless, it is much
+improved over the basic EM algorithm.
+
+[daarem-paper]: https://doi.org/10.1080/10618600.2019.1594835
+[mixsqp]: https://github.com/stephenslab/mixsqp
