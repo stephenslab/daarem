@@ -37,11 +37,11 @@ is the variance of the residual.
 n  <- 200 
 p  <- 500
 na <- 10
-se <- 2
+se <- 4
 ```
 
 This specifies the prior on the regression coefficients: it is normal
-with zero mean and standard deviation `s0`.
+with zero mean and variable `s0`.
 
 ```{r model-settings}
 s0 <- 1/se
@@ -88,7 +88,7 @@ b[i] <- rnorm(na)
 Simulate the continuous outcomes, and center them.
 
 ```{r sim-y}
-y <- drop(X %*% b + se*rnorm(n))
+y <- drop(X %*% b + sqrt(se)*rnorm(n))
 y <- y - mean(y)
 ```
 
@@ -134,7 +134,7 @@ compare the above estimates obtained via co-ordinate ascent against
 the actual solution.
 
 ```{r ridge-solution}
-bhat <- drop(solve(t(X) %*% X + diag(rep(1/s0^2,p)),t(X) %*% y))
+bhat <- drop(solve(t(X) %*% X + diag(rep(1/s0,p)),t(X) %*% y))
 f    <- ridge.objective(X,y,bhat,s0)
 ```
 
