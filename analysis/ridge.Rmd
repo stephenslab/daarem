@@ -23,7 +23,7 @@ variance of the residual.
 
 ```{r knitr, echo=FALSE}
 knitr::opts_chunk$set(comment = "#",results = "hold",collapse = TRUE,
-                      fig.align = "center", eval = FALSE)
+                      fig.align = "center")
 ```
 
 ## Analysis settings
