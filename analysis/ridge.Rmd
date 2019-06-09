@@ -13,8 +13,8 @@ normal prior on the coefficients (*i.e.*, ridge regression). The
 co-ordinate ascent update for $\hat{\beta}_i$, the estimate of the
 regression coefficient for variable $i$, is
 $$\hat{\beta}_i =
-\frac{(X^Ty)_i - \sum_{j\,\neq\,i} (X^TX)_{ij} \hat{\beta}_j}
-     {(X ^TX)_{ii} + 1/\sigma_0^2},$$
+\frac{(X^Ty)_i - \sum_{j\,\neq\,i} (X^T\!X)_{ij} \hat{\beta}_j}
+     {(X^T\!X)_{ii} + 1/\sigma_0^2},$$
 where $X$ is the $n \times p$ matrix storing the $n$ observations of
 $p$ variables, $y$ is the $n$-vector of regression outcomes,
 and the prior on the coefficients is assumed to be *i.i.d* normal with
