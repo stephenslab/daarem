@@ -422,19 +422,15 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabdaaremtreed703a6b5980a15e548de5c5b84aeff7abd7ae8d7targetblankd703a6ba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/daarem/tree/d703a6b5980a15e548de5c5b84aeff7abd7ae8d7" target="_blank">d703a6b</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabdaaremtreefe3a5eee18b4f468d2ff9cefb2593b66d9a4e679targetblankfe3a5eea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/daarem/tree/fe3a5eee18b4f468d2ff9cefb2593b66d9a4e679" target="_blank">fe3a5ee</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabdaaremtreed703a6b5980a15e548de5c5b84aeff7abd7ae8d7targetblankd703a6ba" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabdaaremtreefe3a5eee18b4f468d2ff9cefb2593b66d9a4e679targetblankfe3a5eea" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 </p>
 <pre><code>
-Untracked files:
-    Untracked:  analysis/ridge.R
-    Untracked:  analysis/ridge_files/
-
 Unstaged changes:
     Modified:   code/misc.R
     Modified:   code/mr_ash.R
@@ -478,6 +474,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/daarem/blob/fe3a5eee18b4f468d2ff9cefb2593b66d9a4e679/analysis/ridge.Rmd" target="_blank">fe3a5ee</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-06-09
+</td>
+<td>
+wflow_publish(“ridge.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/daarem/6b9cb1d2259356b942c8a37672f9b9e589327649/docs/ridge.html" target="_blank">6b9cb1d</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-06-09
+</td>
+<td>
+Reworked the ridge co-ordinate ascent updates so that they look more
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -673,8 +703,8 @@ s0 is now the prior s.d. rather than the prior variance.
 </div>
 </div>
 <p>In this small demonstration, we show how the <a href="https://doi.org/10.1080/10618600.2019.1594835">DAAREM method</a> can be used to accelerate a very simple co-ordinate ascent algorithm for computing the <em>maximum a posteriori</em> estimate of the coefficients in a linear regression with a simple normal prior on the coefficients (<em>i.e.</em>, ridge regression). The co-ordinate ascent update for <span class="math inline">\(\hat{\beta}_i\)</span>, the estimate of the regression coefficient for variable <span class="math inline">\(i\)</span>, is <span class="math display">\[\hat{\beta}_i =
-\frac{(X^Ty)_i - \sum_{j\,\neq\,i} (X^TX)_{ij} \hat{\beta}_j}
-     {(X ^TX)_{ii} + 1/\sigma_0^2},\]</span> where <span class="math inline">\(X\)</span> is the <span class="math inline">\(n \times p\)</span> matrix storing the <span class="math inline">\(n\)</span> observations of <span class="math inline">\(p\)</span> variables, <span class="math inline">\(y\)</span> is the <span class="math inline">\(n\)</span>-vector of regression outcomes, and the prior on the coefficients is assumed to be <em>i.i.d</em> normal with mean zero and variance <span class="math inline">\(\sigma^2 \sigma_0^2\)</span>, where <span class="math inline">\(\sigma^2\)</span> is the variance of the residual.</p>
+\frac{(X^Ty)_i - \sum_{j\,\neq\,i} (X^T\!X)_{ij} \hat{\beta}_j}
+     {(X^T\!X)_{ii} + 1/\sigma_0^2},\]</span> where <span class="math inline">\(X\)</span> is the <span class="math inline">\(n \times p\)</span> matrix storing the <span class="math inline">\(n\)</span> observations of <span class="math inline">\(p\)</span> variables, <span class="math inline">\(y\)</span> is the <span class="math inline">\(n\)</span>-vector of regression outcomes, and the prior on the coefficients is assumed to be <em>i.i.d</em> normal with mean zero and variance <span class="math inline">\(\sigma^2 \sigma_0^2\)</span>, where <span class="math inline">\(\sigma^2\)</span> is the variance of the residual.</p>
 <div id="analysis-settings" class="section level2">
 <h2>Analysis settings</h2>
 <p>These variables specify how the data are generated: <code>n</code> is the number of simulated samples, <code>p</code> is the number of simulated predictors, <code>na</code> is the number of simulated predictors that have a nonzero effect, <code>se</code> is the variance of the residual.</p>
@@ -720,7 +750,7 @@ y &lt;- y - mean(y)</code></pre>
 f1  &lt;- ridge.objective(X,y,fit1$b,s0)
 cat(sprintf(&quot;Computation took %0.2f seconds.\n&quot;,out[&quot;elapsed&quot;]))
 cat(sprintf(&quot;Objective value at solution is %0.12f.\n&quot;,f1))
-# Computation took 0.44 seconds.
+# Computation took 0.47 seconds.
 # Objective value at solution is -20.573760535831.</code></pre>
 </div>
 <div id="run-accelerated-co-ordinate-ascent-updates" class="section level2">
@@ -730,7 +760,7 @@ cat(sprintf(&quot;Objective value at solution is %0.12f.\n&quot;,f1))
 f2  &lt;- ridge.objective(X,y,fit2$b,s0)
 cat(sprintf(&quot;Computation took %0.2f seconds.\n&quot;,out[&quot;elapsed&quot;]))
 cat(sprintf(&quot;Objective value at solution is %0.12f.\n&quot;,f2))
-# Computation took 0.50 seconds.
+# Computation took 0.49 seconds.
 # Objective value at solution is -20.332771749786.</code></pre>
 <p>We see that the DAAREM solution is better (it has a higher posterior value).</p>
 </div>
