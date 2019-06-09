@@ -422,10 +422,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabdaaremtree51a653aadbbfc6303cdc247505c3ff5472a3cd85targetblank51a653aa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/daarem/tree/51a653aadbbfc6303cdc247505c3ff5472a3cd85" target="_blank">51a653a</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabdaaremtreefa7f6f2e8153af3edcd19535df59359f554ce060targetblankfa7f6f2a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/daarem/tree/fa7f6f2e8153af3edcd19535df59359f554ce060" target="_blank">fa7f6f2</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabdaaremtree51a653aadbbfc6303cdc247505c3ff5472a3cd85targetblank51a653aa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabdaaremtreefa7f6f2e8153af3edcd19535df59359f554ce060targetblankfa7f6f2a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -476,6 +476,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/daarem/blob/fa7f6f2e8153af3edcd19535df59359f554ce060/analysis/ridge.Rmd" target="_blank">fa7f6f2</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-06-09
+</td>
+<td>
+wflow_publish(“ridge.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/daarem/a0873169dc5305ab13465ee34efc40413f442d7c/docs/ridge.html" target="_blank">a087316</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-06-09
+</td>
+<td>
+Added equation for co-ordinate ascent update to “ridge” analysis.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -666,7 +700,9 @@ y &lt;- y - mean(y)</code></pre>
 <pre class="r"><code>out &lt;- system.time(fit1 &lt;- ridge(X,y,b0,s0,numiter = 100))
 f1  &lt;- ridge.objective(X,y,fit1$b,s0)
 cat(sprintf(&quot;Computation took %0.2f seconds.\n&quot;,out[&quot;elapsed&quot;]))
-cat(sprintf(&quot;Objective value at solution is %0.12f.\n&quot;,f1))</code></pre>
+cat(sprintf(&quot;Objective value at solution is %0.12f.\n&quot;,f1))
+# Computation took 3.71 seconds.
+# Objective value at solution is -20.573760535831.</code></pre>
 </div>
 <div id="run-accelerated-co-ordinate-ascent-updates" class="section level2">
 <h2>Run accelerated co-ordinate ascent updates</h2>
@@ -674,7 +710,9 @@ cat(sprintf(&quot;Objective value at solution is %0.12f.\n&quot;,f1))</code></pr
 <pre class="r"><code>out &lt;- system.time(fit2 &lt;- daarridge(X,y,b0,s0,numiter = 100))
 f2  &lt;- ridge.objective(X,y,fit2$b,s0)
 cat(sprintf(&quot;Computation took %0.2f seconds.\n&quot;,out[&quot;elapsed&quot;]))
-cat(sprintf(&quot;Objective value at solution is %0.12f.\n&quot;,f2))</code></pre>
+cat(sprintf(&quot;Objective value at solution is %0.12f.\n&quot;,f2))
+# Computation took 4.35 seconds.
+# Objective value at solution is -20.332771749786.</code></pre>
 <p>We see that the DAAREM solution is better (it has a higher posterior value).</p>
 </div>
 <div id="plot-improvement-in-solution-over-time" class="section level2">
@@ -692,6 +730,44 @@ p &lt;- ggplot(pdat,aes(x = iter,y = dist,col = method)) +
   scale_color_manual(values = c(&quot;darkorange&quot;,&quot;dodgerblue&quot;)) +
   labs(x = &quot;iteration&quot;,y = &quot;distance from solution&quot;)
 print(p)</code></pre>
+<p><img src="figure/ridge.Rmd/plot-iter-vs-objective-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-iter-vs-objective-1">
+Past versions of plot-iter-vs-objective-1.png
+</button>
+</p>
+<div id="fig-plot-iter-vs-objective-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/daarem/blob/08c5b18c5a9c5c0b4917d65c934d54f45cef5137/docs/figure/ridge.Rmd/plot-iter-vs-objective-1.png" target="_blank">08c5b18</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-06-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>From this plot, we see that the accelerated algorithm progresses much more rapidly toward the solution; after 100 iterations, it nearly recovers the actual ridge estimates, whereas the unaccelerated version is still very far away.</p>
 <br>
 <p>
@@ -700,7 +776,38 @@ print(p)</code></pre>
 </button>
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
-<pre class="r"><code>sessionInfo()</code></pre>
+<pre class="r"><code>sessionInfo()
+# R version 3.4.3 (2017-11-30)
+# Platform: x86_64-apple-darwin15.6.0 (64-bit)
+# Running under: macOS High Sierra 10.13.6
+# 
+# Matrix products: default
+# BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
+# LAPACK: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRlapack.dylib
+# 
+# locale:
+# [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+# 
+# attached base packages:
+# [1] stats     graphics  grDevices utils     datasets  methods   base     
+# 
+# other attached packages:
+# [1] cowplot_0.9.4 ggplot2_3.1.0 daarem_0.3    MASS_7.3-48  
+# 
+# loaded via a namespace (and not attached):
+#  [1] Rcpp_1.0.1        compiler_3.4.3    pillar_1.3.1     
+#  [4] git2r_0.25.2.9008 plyr_1.8.4        workflowr_1.4.0  
+#  [7] tools_3.4.3       digest_0.6.18     evaluate_0.13    
+# [10] tibble_2.1.1      gtable_0.2.0      pkgconfig_2.0.2  
+# [13] rlang_0.3.1       yaml_2.2.0        xfun_0.7         
+# [16] withr_2.1.2.9000  stringr_1.4.0     dplyr_0.8.0.1    
+# [19] knitr_1.23        fs_1.2.7          rprojroot_1.3-2  
+# [22] grid_3.4.3        tidyselect_0.2.5  glue_1.3.1       
+# [25] R6_2.4.0          rmarkdown_1.13    purrr_0.2.5      
+# [28] magrittr_1.5      whisker_0.3-2     backports_1.1.2  
+# [31] scales_0.5.0      htmltools_0.3.6   assertthat_0.2.0 
+# [34] colorspace_1.4-0  labeling_0.3      stringi_1.4.3    
+# [37] lazyeval_0.2.1    munsell_0.4.3     crayon_1.3.4</code></pre>
 </div>
 </div>
 
