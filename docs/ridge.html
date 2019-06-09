@@ -422,22 +422,24 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabdaaremtreefa7f6f2e8153af3edcd19535df59359f554ce060targetblankfa7f6f2a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/daarem/tree/fa7f6f2e8153af3edcd19535df59359f554ce060" target="_blank">fa7f6f2</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabdaaremtreed703a6b5980a15e548de5c5b84aeff7abd7ae8d7targetblankd703a6ba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/daarem/tree/d703a6b5980a15e548de5c5b84aeff7abd7ae8d7" target="_blank">d703a6b</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabdaaremtreefa7f6f2e8153af3edcd19535df59359f554ce060targetblankfa7f6f2a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabdaaremtreed703a6b5980a15e548de5c5b84aeff7abd7ae8d7targetblankd703a6ba" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 </p>
 <pre><code>
 Untracked files:
+    Untracked:  analysis/ridge.R
     Untracked:  analysis/ridge_files/
 
 Unstaged changes:
     Modified:   code/misc.R
     Modified:   code/mr_ash.R
     Modified:   code/mr_ash_demo.R
+    Modified:   code/ridge.R
 
 </code></pre>
 <p>
@@ -476,6 +478,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/daarem/blob/d703a6b5980a15e548de5c5b84aeff7abd7ae8d7/analysis/ridge.Rmd" target="_blank">d703a6b</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-06-09
+</td>
+<td>
+wflow_publish(“ridge.Rmd”)
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -662,8 +681,8 @@ s0 is now the prior s.d. rather than the prior variance.
 <pre class="r"><code>n  &lt;- 200 
 p  &lt;- 500
 na &lt;- 10
-se &lt;- 2</code></pre>
-<p>This specifies the prior on the regression coefficients: it is normal with zero mean and standard deviation <code>s0</code>.</p>
+se &lt;- 4</code></pre>
+<p>This specifies the prior on the regression coefficients: it is normal with zero mean and variable <code>s0</code>.</p>
 <pre class="r"><code>s0 &lt;- 1/se</code></pre>
 </div>
 <div id="set-up-environment" class="section level2">
@@ -689,7 +708,7 @@ X &lt;- scale(X,center = TRUE,scale = FALSE)</code></pre>
 b    &lt;- rep(0,p)
 b[i] &lt;- rnorm(na)</code></pre>
 <p>Simulate the continuous outcomes, and center them.</p>
-<pre class="r"><code>y &lt;- drop(X %*% b + se*rnorm(n))
+<pre class="r"><code>y &lt;- drop(X %*% b + sqrt(se)*rnorm(n))
 y &lt;- y - mean(y)</code></pre>
 </div>
 <div id="run-basic-co-ordinate-ascent-updates" class="section level2">
@@ -701,7 +720,7 @@ y &lt;- y - mean(y)</code></pre>
 f1  &lt;- ridge.objective(X,y,fit1$b,s0)
 cat(sprintf(&quot;Computation took %0.2f seconds.\n&quot;,out[&quot;elapsed&quot;]))
 cat(sprintf(&quot;Objective value at solution is %0.12f.\n&quot;,f1))
-# Computation took 3.71 seconds.
+# Computation took 0.44 seconds.
 # Objective value at solution is -20.573760535831.</code></pre>
 </div>
 <div id="run-accelerated-co-ordinate-ascent-updates" class="section level2">
@@ -711,14 +730,14 @@ cat(sprintf(&quot;Objective value at solution is %0.12f.\n&quot;,f1))
 f2  &lt;- ridge.objective(X,y,fit2$b,s0)
 cat(sprintf(&quot;Computation took %0.2f seconds.\n&quot;,out[&quot;elapsed&quot;]))
 cat(sprintf(&quot;Objective value at solution is %0.12f.\n&quot;,f2))
-# Computation took 4.35 seconds.
+# Computation took 0.50 seconds.
 # Objective value at solution is -20.332771749786.</code></pre>
 <p>We see that the DAAREM solution is better (it has a higher posterior value).</p>
 </div>
 <div id="plot-improvement-in-solution-over-time" class="section level2">
 <h2>Plot improvement in solution over time</h2>
 <p>Since the ridge estimate as a closed-form solution, we can easily compare the above estimates obtained via co-ordinate ascent against the actual solution.</p>
-<pre class="r"><code>bhat &lt;- drop(solve(t(X) %*% X + diag(rep(1/s0^2,p)),t(X) %*% y))
+<pre class="r"><code>bhat &lt;- drop(solve(t(X) %*% X + diag(rep(1/s0,p)),t(X) %*% y))
 f    &lt;- ridge.objective(X,y,bhat,s0)</code></pre>
 <p>This plot shows the improvement in the solution over time for the two co-ordinate ascent algorithms: the vertical axis (“distance to best solution”) shows the difference between the largest log-posterior obtained, and the log-posterior at the actual ridge solution (<code>bhat</code>).</p>
 <pre class="r"><code>pdat &lt;-
