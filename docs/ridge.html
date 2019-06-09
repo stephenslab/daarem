@@ -69,9 +69,7 @@ h6 {
 </style>
 
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -96,6 +94,9 @@ img {
 button.code-folding-btn:focus {
   outline: none;
 }
+summary {
+  display: list-item;
+}
 </style>
 
 
@@ -110,7 +111,6 @@ body {
   padding-top: 56px;
   margin-top: -56px;
 }
-
 .section h2 {
   padding-top: 56px;
   margin-top: -56px;
@@ -130,6 +130,43 @@ body {
 .section h6 {
   padding-top: 56px;
   margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -151,19 +188,85 @@ $(document).ready(function () {
 });
 </script>
 
-
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
 });
 </script>
 
 <!-- code folding -->
 
 
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
 
 
 
@@ -203,7 +306,7 @@ div.section {
 
 
 <h1 class="title toc-ignore">Accelerating co-ordinate ascent updates for linear regression using DAAREM</h1>
-<h4 class="date"><em>June 4, 2019</em></h4>
+<h4 class="date">June 9, 2019</h4>
 
 </div>
 
@@ -228,7 +331,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-06-04
+<strong>Last updated:</strong> 2019-06-09
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -238,7 +341,7 @@ div.section {
 </p>
 <p>
 This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
-  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.3.0.9000). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.4.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
 </p>
 <hr>
 </div>
@@ -319,17 +422,22 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabdaaremtree315637211845c8eb17d41c627d030a345c7bba0dtargetblank3156372a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/daarem/tree/315637211845c8eb17d41c627d030a345c7bba0d" target="_blank">3156372</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabdaaremtree51a653aadbbfc6303cdc247505c3ff5472a3cd85targetblank51a653aa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/daarem/tree/51a653aadbbfc6303cdc247505c3ff5472a3cd85" target="_blank">51a653a</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabdaaremtree315637211845c8eb17d41c627d030a345c7bba0dtargetblank3156372a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabdaaremtree51a653aadbbfc6303cdc247505c3ff5472a3cd85targetblank51a653aa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 </p>
 <pre><code>
+Untracked files:
+    Untracked:  analysis/ridge_files/
+
 Unstaged changes:
-    Modified:   analysis/mixem.Rmd
+    Modified:   code/misc.R
+    Modified:   code/mr_ash.R
+    Modified:   code/mr_ash_demo.R
 
 </code></pre>
 <p>
@@ -368,6 +476,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/daarem/blob/51a653aadbbfc6303cdc247505c3ff5472a3cd85/analysis/ridge.Rmd" target="_blank">51a653a</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-06-09
+</td>
+<td>
+wflow_publish(“ridge.Rmd”)
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -494,7 +619,9 @@ s0 is now the prior s.d. rather than the prior variance.
 </div>
 </div>
 </div>
-<p>In this small demonstration, we show how the <a href="https://doi.org/10.1080/10618600.2019.1594835">DAAREM method</a> can be used to accelerate a very simple co-ordinate ascent algorithm for computing the <em>maximum a posteriori</em> estimate of the coefficients in a linear regression with a simple normal prior on the coefficients (<em>i.e.</em>, ridge regression).</p>
+<p>In this small demonstration, we show how the <a href="https://doi.org/10.1080/10618600.2019.1594835">DAAREM method</a> can be used to accelerate a very simple co-ordinate ascent algorithm for computing the <em>maximum a posteriori</em> estimate of the coefficients in a linear regression with a simple normal prior on the coefficients (<em>i.e.</em>, ridge regression). The co-ordinate ascent update for <span class="math inline">\(\hat{\beta}_i\)</span>, the estimate of the regression coefficient for variable <span class="math inline">\(i\)</span>, is <span class="math display">\[\hat{\beta}_i =
+\frac{(X^Ty)_i - \sum_{j\,\neq\,i} (X^TX)_{ij} \hat{\beta}_j}
+     {(X ^TX)_{ii} + 1/\sigma_0^2},\]</span> where <span class="math inline">\(X\)</span> is the <span class="math inline">\(n \times p\)</span> matrix storing the <span class="math inline">\(n\)</span> observations of <span class="math inline">\(p\)</span> variables, <span class="math inline">\(y\)</span> is the <span class="math inline">\(n\)</span>-vector of regression outcomes, and the prior on the coefficients is assumed to be <em>i.i.d</em> normal with mean zero and variance <span class="math inline">\(\sigma^2 \sigma_0^2\)</span>, where <span class="math inline">\(\sigma^2\)</span> is the variance of the residual.</p>
 <div id="analysis-settings" class="section level2">
 <h2>Analysis settings</h2>
 <p>These variables specify how the data are generated: <code>n</code> is the number of simulated samples, <code>p</code> is the number of simulated predictors, <code>na</code> is the number of simulated predictors that have a nonzero effect, <code>se</code> is the variance of the residual.</p>
@@ -516,7 +643,7 @@ source(&quot;../code/misc.R&quot;)
 source(&quot;../code/datasim.R&quot;)
 source(&quot;../code/ridge.R&quot;)</code></pre>
 <p>Initialize the sequence of pseudorandom numbers.</p>
-<pre class="set"><code>set.seed(1)</code></pre>
+<pre class="r"><code>set.seed(1)</code></pre>
 </div>
 <div id="simulate-data" class="section level2">
 <h2>Simulate data</h2>
@@ -539,9 +666,7 @@ y &lt;- y - mean(y)</code></pre>
 <pre class="r"><code>out &lt;- system.time(fit1 &lt;- ridge(X,y,b0,s0,numiter = 100))
 f1  &lt;- ridge.objective(X,y,fit1$b,s0)
 cat(sprintf(&quot;Computation took %0.2f seconds.\n&quot;,out[&quot;elapsed&quot;]))
-cat(sprintf(&quot;Objective value at solution is %0.12f.\n&quot;,f1))
-# Computation took 3.63 seconds.
-# Objective value at solution is -20.573760535831.</code></pre>
+cat(sprintf(&quot;Objective value at solution is %0.12f.\n&quot;,f1))</code></pre>
 </div>
 <div id="run-accelerated-co-ordinate-ascent-updates" class="section level2">
 <h2>Run accelerated co-ordinate ascent updates</h2>
@@ -549,9 +674,7 @@ cat(sprintf(&quot;Objective value at solution is %0.12f.\n&quot;,f1))
 <pre class="r"><code>out &lt;- system.time(fit2 &lt;- daarridge(X,y,b0,s0,numiter = 100))
 f2  &lt;- ridge.objective(X,y,fit2$b,s0)
 cat(sprintf(&quot;Computation took %0.2f seconds.\n&quot;,out[&quot;elapsed&quot;]))
-cat(sprintf(&quot;Objective value at solution is %0.12f.\n&quot;,f2))
-# Computation took 3.56 seconds.
-# Objective value at solution is -20.332771749786.</code></pre>
+cat(sprintf(&quot;Objective value at solution is %0.12f.\n&quot;,f2))</code></pre>
 <p>We see that the DAAREM solution is better (it has a higher posterior value).</p>
 </div>
 <div id="plot-improvement-in-solution-over-time" class="section level2">
@@ -569,44 +692,6 @@ p &lt;- ggplot(pdat,aes(x = iter,y = dist,col = method)) +
   scale_color_manual(values = c(&quot;darkorange&quot;,&quot;dodgerblue&quot;)) +
   labs(x = &quot;iteration&quot;,y = &quot;distance from solution&quot;)
 print(p)</code></pre>
-<p><img src="figure/ridge.Rmd/plot-iter-vs-objective-1.png" width="576" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-iter-vs-objective-1">
-Past versions of plot-iter-vs-objective-1.png
-</button>
-</p>
-<div id="fig-plot-iter-vs-objective-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/stephenslab/daarem/blob/08c5b18c5a9c5c0b4917d65c934d54f45cef5137/docs/figure/ridge.Rmd/plot-iter-vs-objective-1.png" target="_blank">08c5b18</a>
-</td>
-<td>
-Peter Carbonetto
-</td>
-<td>
-2019-06-04
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
 <p>From this plot, we see that the accelerated algorithm progresses much more rapidly toward the solution; after 100 iterations, it nearly recovers the actual ridge estimates, whereas the unaccelerated version is still very far away.</p>
 <br>
 <p>
@@ -615,38 +700,7 @@ Peter Carbonetto
 </button>
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
-<pre class="r"><code>sessionInfo()
-# R version 3.4.3 (2017-11-30)
-# Platform: x86_64-apple-darwin15.6.0 (64-bit)
-# Running under: macOS High Sierra 10.13.6
-# 
-# Matrix products: default
-# BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
-# LAPACK: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRlapack.dylib
-# 
-# locale:
-# [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
-# 
-# attached base packages:
-# [1] stats     graphics  grDevices utils     datasets  methods   base     
-# 
-# other attached packages:
-# [1] cowplot_0.9.4 ggplot2_3.1.0 daarem_0.3    MASS_7.3-48  
-# 
-# loaded via a namespace (and not attached):
-#  [1] Rcpp_1.0.1           knitr_1.20           whisker_0.3-2       
-#  [4] magrittr_1.5         workflowr_1.3.0.9000 tidyselect_0.2.5    
-#  [7] munsell_0.4.3        colorspace_1.4-0     R6_2.2.2            
-# [10] rlang_0.3.1          dplyr_0.8.0.1        stringr_1.3.1       
-# [13] plyr_1.8.4           tools_3.4.3          grid_3.4.3          
-# [16] gtable_0.2.0         withr_2.1.2          git2r_0.25.2.9008   
-# [19] htmltools_0.3.6      assertthat_0.2.0     lazyeval_0.2.1      
-# [22] yaml_2.2.0           rprojroot_1.3-2      digest_0.6.17       
-# [25] tibble_2.1.1         crayon_1.3.4         purrr_0.2.5         
-# [28] fs_1.2.6             glue_1.3.0           evaluate_0.11       
-# [31] rmarkdown_1.10       labeling_0.3         stringi_1.2.4       
-# [34] pillar_1.3.1         compiler_3.4.3       scales_0.5.0        
-# [37] backports_1.1.2      pkgconfig_2.0.2</code></pre>
+<pre class="r"><code>sessionInfo()</code></pre>
 </div>
 </div>
 
