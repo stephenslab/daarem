@@ -50,14 +50,18 @@ daarridge.update <- function (b, X, y, x0)
 # Compute the value of the log-posterior (i.e., the log-likelihood
 # with the ridge "penalty term") up to a proportionality constant.
 ridge.objective <- function (X, y, b, s0)
-  -(norm2(y - X %*% b)^2 + norm2(b/s0)^2)
+  -(norm2(y - X %*% b)^2 + norm2(b)^2/s0)
 
-# Apply a co-ordinate ascent update once for each co-ordinate.
+# Apply a co-ordinate ascent update once for each variable.
 ridge.update <- function (X, y, b, s0) {
   p  <- length(b)
+  d  <- colSums(X^2)
   xy <- drop(y %*% X)
-  R  <- crossprod(X)
-  for (i in 1:p)
-    b[i] <- (xy[i] - sum(R[i,-i] * b[-i]))/(R[i,i] + 1/s0^2)
+  xb <- drop(X %*% b)
+  for (i in 1:p) {
+    b0   <- b[i]
+    b[i] <- (xy[i] + d[i]*b[i] - dot(xb,X[,i]))/(d[i] + 1/s0)
+    xb   <- xb + (b[i] - b0)*X[,i]
+  }
   return(b)
 }
