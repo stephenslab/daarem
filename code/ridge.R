@@ -45,7 +45,7 @@ daarridge.objective <- function (b, X, y, s0)
 
 # This implements the fixptfn argument for the daarem call above.
 daarridge.update <- function (b, X, y, x0)
-    ridge.update(X,y,b,s0)
+  ridge.update(X,y,b,s0)
 
 # Compute the value of the log-posterior (i.e., the log-likelihood
 # with the ridge "penalty term") up to a proportionality constant.

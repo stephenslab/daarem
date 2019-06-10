@@ -24,6 +24,26 @@ mr_ash <- function (X, y, b0, s, s0, w, numiter = 100) {
   return(list(b = b,value = value))
 }
 
+# TO DO: Explain here what this function does.
+daar_mr_ash <- function (X, y, b0, s, s0, w, numiter = 100, order = 10) {
+
+  # Run DAAREM.
+  out <- suppressWarnings(
+    daarem(b0,daar_mr_ash_update,daar_mr_ash_objective,X,y,s,s0,w,
+           control = list(maxiter = numiter,order = order,tol = 0,
+                          mon.tol = 0.01,kappa = 20,alpha = 1.1)))
+
+  # Return the estimate of the regression coefficients ("b") and the
+  # value of the objective at each iteration ("value").
+  return(list(b = out$par,value = out$objfn.track[-1]))
+}
+
+daar_mr_ash_update <- function (b, X, y, s, s0, w)
+  mr_ash_update(X,y,b,s,s0,w)
+
+daar_mr_ash_objective <- function (b, X, y, s, s0, w)
+  mr_ash_elbo(X,y,b,s,s0,w)
+
 # Compute the variational lower bound to the marginal log-likelihood.
 mr_ash_elbo <- function (X, y, b, s, s0, w) {
   e   <- 1e-15
