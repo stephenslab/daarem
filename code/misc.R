@@ -12,13 +12,13 @@ norm2 <- function (x)
 
 # Compute the softmax of x.
 softmax <- function (x) {
-  y <- exp(c(0,x))
+  y <- exp(x)
   return(y/sum(y))
 }
 
 # Compute the inverse softmax of y.
 softmaxinverse <- function (y)
-  log(y[-1]/y[1])
+  log(y)
 
 # Takes as input an array of unnormalized log-probabilities logw and
 # returns normalized probabilities such that the sum is equal to 1.

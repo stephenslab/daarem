@@ -41,7 +41,7 @@ cat(sprintf("Loaded %d x %d data matrix.\n",n,m))
 
 Set the initial estimate of the mixture proportions.
 
-```{r}
+```{r init-estimate}
 x0 <- rep(1/m,m)
 ```
 
