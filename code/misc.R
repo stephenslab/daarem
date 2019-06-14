@@ -10,16 +10,6 @@ dot <- function (x,y)
 norm2 <- function (x)
   sqrt(dot(x,x))
 
-# Compute the softmax of x.
-softmax <- function (x) {
-  y <- exp(x)
-  return(y/sum(y))
-}
-
-# Compute the inverse softmax of y.
-softmaxinverse <- function (y)
-  log(y)
-
 # Takes as input an array of unnormalized log-probabilities logw and
 # returns normalized probabilities such that the sum is equal to 1.
 normalizelogweights <- function (logw) {
