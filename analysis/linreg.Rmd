@@ -1,25 +1,24 @@
 ---
 title: "Accelerating co-ordinate ascent updates for linear regression using DAAREM"
-date: June 9, 2019
+date: June 19, 2019
 site: workflowr::wflow_site
 output: workflowr::wflow_html
 ---
 
 In this small demonstration, we show how the
-[DAAREM method][daarem-paper] can be used to accelerate a very simple
-co-ordinate ascent algorithm for computing the *maximum a posteriori*
-estimate of the coefficients in a linear regression with a simple
-normal prior on the coefficients (*i.e.*, ridge regression). The
-co-ordinate ascent update for $\hat{\beta}_i$, the estimate of the
-regression coefficient for variable $i$, is
-$$\hat{\beta}_i =
-\frac{(X^Ty)_i - \sum_{j\,\neq\,i} (X^T\!X)_{ij} \hat{\beta}_j}
-     {(X^T\!X)_{ii} + 1/\sigma_0^2},$$
-where $X$ is the $n \times p$ matrix storing the $n$ observations of
-$p$ variables, $y$ is the $n$-vector of regression outcomes,
-and the prior on the coefficients is assumed to be *i.i.d* normal with
-mean zero and variance $\sigma^2 \sigma_0^2$, where $\sigma^2$ is the
-variance of the residual.
+[DAAREM method][daarem-paper] can be used to accelerate co-ordinate
+ascent algorithms for linear regression models.
+
+We begin with a simple case in which the regression coefficients admit
+a simple normal prior---*i.e.*, ridge regression. The co-ordinate
+ascent update for $\hat{\beta}_i$, the estimate of the regression
+coefficient for variable $i$, is $$\hat{\beta}_i = \frac{(X^Ty)_i -
+\sum_{j\,\neq\,i} (X^T\!X)_{ij} \hat{\beta}_j} {(X^T\!X)_{ii} +
+1/\sigma_0^2},$$ where $X$ is the $n \times p$ matrix storing the $n$
+observations of $p$ variables, $y$ is the $n$-vector of regression
+outcomes, and the prior on the coefficients is assumed to be *i.i.d*
+normal with mean zero and variance $\sigma^2 \sigma_0^2$, where
+$\sigma^2$ is the variance of the residual.
 
 ```{r knitr, echo=FALSE}
 knitr::opts_chunk$set(comment = "#",results = "hold",collapse = TRUE,
@@ -41,7 +40,7 @@ se <- 4
 ```
 
 This specifies the prior on the regression coefficients: it is normal
-with zero mean and variable `s0`.
+with zero mean and variance `s0`.
 
 ```{r model-settings}
 s0 <- 1/se
@@ -59,6 +58,7 @@ library(cowplot)
 source("../code/misc.R")
 source("../code/datasim.R")
 source("../code/ridge.R")
+source("../code/mr_ash.R")
 ```
 
 Initialize the sequence of pseudorandom numbers.

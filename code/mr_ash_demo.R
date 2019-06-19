@@ -8,16 +8,6 @@ se <- 4
 s0 <- c(0.1,1,10)^2/se
 w  <- c(0.5,0.25,0.25)
 
-## ----load-pkgs, warning=FALSE, message=FALSE-----------------------------
-library(MASS)
-library(daarem)
-library(ggplot2)
-library(cowplot)
-source("misc.R")
-source("datasim.R")
-source("ridge.R")
-source("mr_ash.R")
-
 set.seed(1)
 
 ## ----sim-x---------------------------------------------------------------
