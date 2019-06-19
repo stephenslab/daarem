@@ -15,6 +15,6 @@ Follow the links below to browse the demonstrations.
 + [Accelerating EM for computing maximum-likelihood estimates of mixture proportions.](mixem.html)
 
 + [Accelerating co-ordinate ascent updates for linear regression using
-DAAREM.](ridge.html)
+DAAREM.](linreg.html)
 
 [daarem-paper]: https://doi.org/10.1080/10618600.2019.1594835
