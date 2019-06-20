@@ -423,10 +423,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabdaaremtreef7ea5b3a0dac5211e688e57bfff150062d2de610targetblankf7ea5b3a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/daarem/tree/f7ea5b3a0dac5211e688e57bfff150062d2de610" target="_blank">f7ea5b3</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabdaaremtree98e78d8ff6a08c9fc1b04195b19071ae7f98d902targetblank98e78d8a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/daarem/tree/98e78d8ff6a08c9fc1b04195b19071ae7f98d902" target="_blank">98e78d8</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabdaaremtreef7ea5b3a0dac5211e688e57bfff150062d2de610targetblankf7ea5b3a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabdaaremtree98e78d8ff6a08c9fc1b04195b19071ae7f98d902targetblank98e78d8a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -470,6 +470,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/daarem/blob/98e78d8ff6a08c9fc1b04195b19071ae7f98d902/analysis/linreg.Rmd" target="_blank">98e78d8</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-06-20
+</td>
+<td>
+wflow_publish(“linreg.Rmd”)
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -611,7 +628,7 @@ y &lt;- y - mean(y)</code></pre>
 f1  &lt;- ridge.objective(X,y,fit1$b,s0)
 cat(sprintf(&quot;Computation took %0.2f seconds.\n&quot;,out[&quot;elapsed&quot;]))
 cat(sprintf(&quot;Objective value at solution is %0.12f.\n&quot;,f1))
-# Computation took 0.45 seconds.
+# Computation took 0.46 seconds.
 # Objective value at solution is -20.573760535831.</code></pre>
 </div>
 <div id="run-accelerated-co-ordinate-ascent-updates" class="section level2">
@@ -621,7 +638,7 @@ cat(sprintf(&quot;Objective value at solution is %0.12f.\n&quot;,f1))
 f2  &lt;- ridge.objective(X,y,fit2$b,s0)
 cat(sprintf(&quot;Computation took %0.2f seconds.\n&quot;,out[&quot;elapsed&quot;]))
 cat(sprintf(&quot;Objective value at solution is %0.12f.\n&quot;,f2))
-# Computation took 0.48 seconds.
+# Computation took 0.49 seconds.
 # Objective value at solution is -20.332771749786.</code></pre>
 <p>We see that the DAAREM solution is better (it has a higher posterior value).</p>
 </div>
@@ -692,14 +709,14 @@ w  &lt;- c(0.5,0.25,0.25)</code></pre>
 <p>Fit the mr-ash model by running 200 iterations of the basic co-ordinate ascent updates.</p>
 <pre class="r"><code>out &lt;- system.time(fit3 &lt;- mr_ash(X,y,b0,se,s0,w,numiter = 100))
 cat(sprintf(&quot;Computation took %0.2f seconds.\n&quot;,out[&quot;elapsed&quot;]))
-# Computation took 1.19 seconds.</code></pre>
+# Computation took 1.11 seconds.</code></pre>
 </div>
 <div id="run-accelerated-mr-ash-co-ordinate-ascent-updates" class="section level2">
 <h2>Run accelerated mr-ash co-ordinate ascent updates</h2>
 <p>Fit the mr-ash model again, this time using DAAREM to speed up the co-ordinate ascent updates.</p>
 <pre class="r"><code>out &lt;- system.time(fit4 &lt;- daar_mr_ash(X,y,b0,se,s0,w,numiter = 100))
 cat(sprintf(&quot;Computation took %0.2f seconds.\n&quot;,out[&quot;elapsed&quot;]))
-# Computation took 1.22 seconds.</code></pre>
+# Computation took 1.19 seconds.</code></pre>
 <p>Like the plot above, plot shows the improvement in the solution over time for the basic and accelated co-ordinate ascent algorithms for mr-ash. Both algorithms end up at the same solution, but the “accelerated” version indeed arrives at the solution much more quickly.</p>
 <pre class="r"><code>f    &lt;- max(c(fit3$value,fit4$value)) + 1e-8
 pdat &lt;- 
@@ -711,7 +728,7 @@ p &lt;- ggplot(pdat,aes(x = iter,y = dist,col = method)) +
   scale_color_manual(values = c(&quot;darkorange&quot;,&quot;dodgerblue&quot;)) +
   labs(x = &quot;iteration&quot;,y = &quot;distance from best solution&quot;)
 print(p)</code></pre>
-<p><img src="figure/linreg.Rmd/plot-iter-vs-mr-ash-objective-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="figure/linreg.Rmd/plot-iter-vs-mr-ash-objective-1.png" width="624" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-iter-vs-mr-ash-objective-1">
 Past versions of plot-iter-vs-mr-ash-objective-1.png
