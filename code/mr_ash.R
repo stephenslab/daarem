@@ -67,7 +67,11 @@ mr_ash_elbo <- function (X, y, b, s, s0, w) {
   return(f)
 }
 
-# Apply a co-ordinate ascent update once for each variable.
+# Apply a co-ordinate ascent update once for each variable. Here,
+# input "b" is a vector in which b[i] contains a ridge estimate of the
+# regression coefficient. This quantity is sufficient to determine the
+# posterior distribution for each coefficient under the variational
+# approximation.
 mr_ash_update <- function (X, y, b, s, s0, w) {
 
   # Get the number of variables (p) and the number of mixture
@@ -109,7 +113,10 @@ mr_ash_update <- function (X, y, b, s, s0, w) {
   return(b)
 }
 
-# TO DO: Explain here what this function does.
+# Compute variational estimates of the posterior means, variances and
+# mixture assignment probabilities given the data (X, y),
+# hyperparameters (s, s0, w) and "b", a ridge estimate of each of the
+# regression coefficients.
 mr_ash_posterior <- function (X, y, b, s, s0, w) {
   p  <- length(b)
   k  <- length(w)
