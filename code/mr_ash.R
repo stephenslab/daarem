@@ -121,7 +121,8 @@ mr_ash_posterior <- function (X, y, b, s, s0, w) {
   return(list(a = a,mu = mu,v = v))
 }
 
-# betavarmix(p,mu,s) returns variances of variables drawn from mixtures of
-# normals.
+# Returns variances of variables drawn from mixtures of normals, in
+# which vectors mu and s give the normal mean and variances, and
+# vector p gives the mixture weights.
 betavarmix <- function (p, mu, s)
   rowSums(p*(s + mu^2)) - rowSums(p*mu)^2

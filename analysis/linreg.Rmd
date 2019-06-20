@@ -9,16 +9,17 @@ In this small demonstration, we show how the
 [DAAREM method][daarem-paper] can be used to accelerate co-ordinate
 ascent algorithms for linear regression models.
 
-We begin with a simple case in which the regression coefficients admit
-a simple normal prior---*i.e.*, ridge regression. The co-ordinate
-ascent update for $\hat{\beta}_i$, the estimate of the regression
-coefficient for variable $i$, is $$\hat{\beta}_i = \frac{(X^Ty)_i -
-\sum_{j\,\neq\,i} (X^T\!X)_{ij} \hat{\beta}_j} {(X^T\!X)_{ii} +
-1/\sigma_0^2},$$ where $X$ is the $n \times p$ matrix storing the $n$
-observations of $p$ variables, $y$ is the $n$-vector of regression
-outcomes, and the prior on the coefficients is assumed to be *i.i.d*
-normal with mean zero and variance $\sigma^2 \sigma_0^2$, where
-$\sigma^2$ is the variance of the residual.
+We begin with a simple case in which the regression coefficients are
+independently and identically drawn from a simple normal prior with
+zero mean---*i.e.*, ridge regression. The co-ordinate ascent update
+for $\hat{\beta}_i$, the estimate of the regression coefficient for
+variable $i$, is $$\hat{\beta}_i = \frac{(X^Ty)_i - \sum_{j\,\neq\,i}
+(X^T\!X)_{ij} \hat{\beta}_j} {(X^T\!X)_{ii} + 1/\sigma_0^2},$$ where
+$X$ is the $n \times p$ matrix storing the $n$ observations of $p$
+variables, $y$ is the $n$-vector of regression outcomes, and the prior
+on the coefficients is assumed to be *i.i.d* normal with mean zero and
+variance $\sigma^2 \sigma_0^2$, where $\sigma^2$ is the variance of
+the residual.
 
 ```{r knitr, echo=FALSE}
 knitr::opts_chunk$set(comment = "#",results = "hold",collapse = TRUE,
@@ -42,7 +43,7 @@ se <- 4
 This specifies the prior on the regression coefficients: it is normal
 with zero mean and variance `s0`.
 
-```{r model-settings}
+```{r ridge-settings}
 s0 <- 1/se
 ```
 
@@ -67,7 +68,7 @@ Initialize the sequence of pseudorandom numbers.
 set.seed(1)
 ```
 
-## Simulate data
+## Simulate a data set
 
 Simulate predictors with "decaying" correlations.
 
@@ -92,7 +93,7 @@ y <- drop(X %*% b + sqrt(se)*rnorm(n))
 y <- y - mean(y)
 ```
 
-## Run basic co-ordinate ascent updates
+## Run ridge regression co-ordinate ascent updates
 
 Set the initial estimate of the coefficients.
 
@@ -160,4 +161,70 @@ more rapidly toward the solution; after 100 iterations, it nearly
 recovers the actual ridge estimates, whereas the unaccelerated version
 is still very far away.
 
+## Linear regression with mixture-of-normals priors
+
+Next, we consider a less simple case in which the regression
+coefficients are independently and identically drawn from mixture of
+zero-centered normals; this can be seen as a multivariate extension to
+the [adaptive shrinkage model][adaptive-shrinkage-paper], so we call
+this "multivariate regression adaptive shrinkage" (mr-ash). Although
+posterior computations with this model are more difficult than with
+ridge regression, we can nonetheless obtain simple co-ordinate ascent
+updates for computing posterior expectations of the coefficients if we
+introduce a *variational approximation* to the posterior
+distribution. The full derivation is omitted here; see the code in the
+`mr_ash_update` function for details. (Note that the co-ordinate
+ascent updates, unlike the ridge regression updates, are only
+guaranteed to recover a *local maximum* of the objective function
+being optimized.)
+
+These two variables specify the variances and mixture weights for the
+mixture-of-normals priors. Here we illustrate mr-ash with a prior
+that is a mixture of three normals.
+
+```{r mr-ash-settings}
+s0 <- c(0.1,1,10)^2/se
+w  <- c(0.5,0.25,0.25)
+```
+
+## Run mr-ash co-ordinate ascent updates
+
+Fit the mr-ash model by running 200 iterations of the basic
+co-ordinate ascent updates. 
+
+```{r fit-mr-ash}
+out <- system.time(fit3 <- mr_ash(X,y,b0,se,s0,w,numiter = 100))
+cat(sprintf("Computation took %0.2f seconds.\n",out["elapsed"]))
+```
+c
+## Run accelerated mr-ash co-ordinate ascent updates
+
+Fit the mr-ash model again, this time using DAAREM to speed up the
+co-ordinate ascent updates.
+
+```{r fit-mr-ash-2}
+out <- system.time(fit4 <- daar_mr_ash(X,y,b0,se,s0,w,numiter = 100))
+cat(sprintf("Computation took %0.2f seconds.\n",out["elapsed"]))
+```
+
+Like the plot above, plot shows the improvement in the solution over
+time for the basic and accelated co-ordinate ascent algorithms for
+mr-ash. Both algorithms end up at the same solution, but the
+"accelerated" version indeed arrives at the solution much more
+quickly.
+
+```{r plot-iter-vs-mr-ash-objective, fig.height=4, fig.width=6}
+f    <- max(c(fit3$value,fit4$value)) + 1e-8
+pdat <- 
+  rbind(data.frame(iter = 1:100,dist = f - fit3$value,method = "basic"),
+        data.frame(iter = 1:100,dist = f - fit4$value,method = "accelerated"))
+p <- ggplot(pdat,aes(x = iter,y = dist,col = method)) +
+  geom_line(size = 1) +
+  scale_y_continuous(trans = "log10",breaks = 10^seq(-8,4)) +
+  scale_color_manual(values = c("darkorange","dodgerblue")) +
+  labs(x = "iteration",y = "distance from best solution")
+print(p)
+```
+
 [daarem-paper]: https://doi.org/10.1080/10618600.2019.1594835
+[adaptive-shrinkage-paper]: https://doi.org/10.1093/biostatistics/kxw041
