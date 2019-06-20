@@ -207,11 +207,11 @@ out <- system.time(fit4 <- daar_mr_ash(X,y,b0,se,s0,w,numiter = 100))
 cat(sprintf("Computation took %0.2f seconds.\n",out["elapsed"]))
 ```
 
-Like the plot above, plot shows the improvement in the solution over
-time for the basic and accelated co-ordinate ascent algorithms for
-mr-ash. Both algorithms end up at the same solution, but the
+Like the plot above, this plot shows the improvement in the solution
+over time for the basic and accelated mr-ash co-ordinate ascent
+algorithms. Both algorithms end up at the same solution. But the
 "accelerated" version indeed arrives at the solution much more
-quickly.
+quickly, whereas the basic algorithm gets "stuck" for many iterations.
 
 ```{r plot-iter-vs-mr-ash-objective, fig.height=4, fig.width=6.5}
 f    <- max(c(fit3$value,fit4$value)) + 1e-8
