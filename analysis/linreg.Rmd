@@ -196,7 +196,7 @@ co-ordinate ascent updates.
 out <- system.time(fit3 <- mr_ash(X,y,b0,se,s0,w,numiter = 100))
 cat(sprintf("Computation took %0.2f seconds.\n",out["elapsed"]))
 ```
-c
+
 ## Run accelerated mr-ash co-ordinate ascent updates
 
 Fit the mr-ash model again, this time using DAAREM to speed up the
