@@ -1,4 +1,5 @@
-# TO DO: Explain here what this function does.
+# Optimize the variational lower bound ("ELBO") for the mr-ash model
+# by running a fixed number of co-ordinate ascent updates.
 mr_ash <- function (X, y, b0, s, s0, w, numiter = 100) {
 
   # Get the initial estimates of the posterior mean regression coefficients.
@@ -24,7 +25,9 @@ mr_ash <- function (X, y, b0, s, s0, w, numiter = 100) {
   return(list(b = b,value = value))
 }
 
-# TO DO: Explain here what this function does.
+# Optimize the variational lower bound ("ELBO") for the mr-ash model
+# by running a fixed number of co-ordinate ascent updates accelerated
+# using the DAAREM algorithm.
 daar_mr_ash <- function (X, y, b0, s, s0, w, numiter = 100, order = 10) {
 
   # Run DAAREM.
@@ -38,9 +41,11 @@ daar_mr_ash <- function (X, y, b0, s, s0, w, numiter = 100, order = 10) {
   return(list(b = out$par,value = out$objfn.track[-1]))
 }
 
+# This implements the fixptfn argument for the daarem call above.
 daar_mr_ash_update <- function (b, X, y, s, s0, w)
   mr_ash_update(X,y,b,s,s0,w)
 
+# This implements the objfn argument for the daarem call above.
 daar_mr_ash_objective <- function (b, X, y, s, s0, w)
   mr_ash_elbo(X,y,b,s,s0,w)
 
@@ -70,8 +75,8 @@ mr_ash_update <- function (X, y, b, s, s0, w) {
   p <- length(b)
   k <- length(w)
   
-  # Precompute some quantities used in the co-ordinate ascent updates
-  # below.
+  # Precompute a couple vector quantities used in the co-ordinate
+  # ascent updates below.
   d  <- colSums(X^2)
   xy <- drop(y %*% X)
 
@@ -86,8 +91,8 @@ mr_ash_update <- function (X, y, b, s, s0, w) {
     r0 <- r[i]
 
     # Compute "b" using the ridge co-ordinate ascent update, in which
-    # the prior on the coefficients is normal with zero mean and
-    # variance 1.
+    # the prior on the coefficient is normal with zero mean and
+    # variance s0[k],the variance of the kth mixture component.
     v    <- s/(d[i] + 1/s0)
     b[i] <- v[k]/s*(xy[i] + d[i]*r[i] - dot(xr,X[,i]))
 
@@ -96,7 +101,7 @@ mr_ash_update <- function (X, y, b, s, s0, w) {
     a    <- normalizelogweights(log(w) + (log(v/(s*s0)) + mu^2/v)/2)
     r[i] <- dot(a,mu)
 
-    # Update the matrix-vector product X*r, where r is the vector of
+    # Adjust the matrix-vector product X*r, where r is the vector of
     # posterior mean coefficients.
     xr <- xr + (r[i] - r0)*X[,i]
   }
@@ -112,11 +117,17 @@ mr_ash_posterior <- function (X, y, b, s, s0, w) {
   a  <- matrix(0,p,k)
   mu <- matrix(0,p,k)
   v  <- matrix(0,p,k)
+
+  # For each co-ordinate (variable), compute the variational estimate
+  # of the posterior variances, posterior means and posterior mixture
+  # assignment probabilities given "b", the ridge estimate of the
+  # regression coefficient assuming the prior is normal with mean zero
+  # and variance s0[k], the variance of the kth mixture component.
   for (i in 1:p) {
     v[i,]  <- s/(d[i] + 1/s0)
     mu[i,] <- v[i,]/v[i,k]*b[i]
-    a[i,]  <- normalizelogweights(log(w) + (log(v[i,]/(s*s0)) +
-                                            mu[i,]^2/v[i,])/2)
+    a[i,]  <- log(w) + (log(v[i,]/(s*s0)) + mu[i,]^2/v[i,])/2
+    a[i,]  <- normalizelogweights(a[i,])
   }
   return(list(a = a,mu = mu,v = v))
 }
