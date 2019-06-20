@@ -213,7 +213,7 @@ mr-ash. Both algorithms end up at the same solution, but the
 "accelerated" version indeed arrives at the solution much more
 quickly.
 
-```{r plot-iter-vs-mr-ash-objective, fig.height=4, fig.width=6}
+```{r plot-iter-vs-mr-ash-objective, fig.height=4, fig.width=6.5}
 f    <- max(c(fit3$value,fit4$value)) + 1e-8
 pdat <- 
   rbind(data.frame(iter = 1:100,dist = f - fit3$value,method = "basic"),
