@@ -55,7 +55,9 @@ daarbetanmf.update <- function (vars, X, e) {
 # This implements the objfn argument for the daarem call above.
 daarbetanmf.objective <- function (vars, X, e) {
   out <- getnmfparams(vars,X)
-  return(cost(X,out$A,out$B,e))
+  f   <- cost(X,out$A,out$B,e)
+  print(f,digits = 16)
+  return(-f)
 }
 
 # Perform a single multiplicative (EM) update.

@@ -33,9 +33,9 @@ B <- matrix(runif(m*k),k,m)
 # RUN BASIC EM UPDATES
 # --------------------
 cat("Running the multiplcative (EM) updates.\n")
-fit1 <- betanmf(droplet,A,B,20)
+fit1 <- betanmf(droplet,A,B,100)
 
 # RUN ACCELERATED EM UPDATES
 # --------------------------
 cat("Running the accelerated EM updates.\n")
-fit2 <- daarbetanmf(droplet,A,B,20)
+fit2 <- daarbetanmf(droplet,A,B,100)
