@@ -21,6 +21,7 @@ set.seed(1)
 # ---------
 cat("Loading droplet read counts.\n")
 load("../data/droplet.RData")
+droplet <- as.matrix(droplet)
 
 # Randomly initialize the factorization.
 n <- nrow(droplet)
@@ -31,8 +32,9 @@ B <- matrix(runif(m*k),k,m)
 # RUN BASIC EM UPDATES
 # --------------------
 cat("Running the multiplcative (EM) updates.\n")
-fit1 <- betanmf(droplet,A,B,numiter = 20)
+fit1 <- betanmf(droplet,A,B,20)
 
 # RUN ACCELERATED EM UPDATES
 # --------------------------
+cat("Running the accelerated EM updates.\n")
 # TO DO.
