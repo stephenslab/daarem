@@ -55,6 +55,12 @@ betanmf.update <- function (X, A, B, e) {
   B <- B * (t(A) %*% (X / (A %*% B))) / colSums(A)
   B <- pmax(B,e)
 
+  # Rescale the factors and loadings so that the column means of A are
+  # equal to the row means of B.
+  r <- sqrt(rowMeans(B) / colMeans(A))
+  A <- scale.cols(A,r)
+  B <- B / r
+  
   return(list(A = A,B = B))
 }
 
