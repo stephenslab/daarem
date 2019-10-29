@@ -8,16 +8,9 @@ betanmf <- function (X, A, B, numiter = 100, e = 1e-15) {
   # Iterate the multiplicative (EM) updates.
   cat("iter objective (cost fn)\n")
   for (i in 1:numiter) {
-
-    # Update the loadings ("activations").
-    A <- scale.cols(A * ((X / (A %*% B)) %*% t(B)),1/rowSums(B))
-    A <- pmax(A,e)
-
-    # Update the factors ("basis vectors").
-    B <- B * (t(A) %*% (X / (A %*% B))) / colSums(A)
-    B <- pmax(B,e)
-
-    # Record the algorithm's progress.
+    out      <- betanmf.update(X,A,B,e)
+    A        <- out$A
+    B        <- out$B
     value[i] <- cost(X,A,B,e)
     cat(sprintf("%4d %+0.12e\n",i,value[i]))
   }
@@ -51,9 +44,19 @@ daarbetanmf.objective <- function (vars, X, e) {
   # TO DO.
 }
 
-# Scale each column A[,i] by b[i].
-scale.cols <- function (A, b) 
-  t(t(A) * b)
+# Perform a single multiplicative (EM) update.
+betanmf.update <- function (X, A, B, e) {
+
+  # Update the loadings ("activations").
+  A <- scale.cols(A * ((X / (A %*% B)) %*% t(B)),1/rowSums(B))
+  A <- pmax(A,e)
+
+  # Update the factors ("basis vectors").
+  B <- B * (t(A) %*% (X / (A %*% B))) / colSums(A)
+  B <- pmax(B,e)
+
+  return(list(A = A,B = B))
+}
 
 # Compute the value of the cost function for non-negative matrix
 # factorization, in which matrix X is approximated by matrix AB = A*B.
@@ -63,3 +66,8 @@ cost <- function (X, A, B, e) {
   AB <- A %*% B
   return(sum(AB - X*log(AB + e)))
 }
+
+# Scale each column A[,i] by b[i].
+scale.cols <- function (A, b) 
+  t(t(A) * b)
+
