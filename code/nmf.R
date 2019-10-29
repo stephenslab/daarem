@@ -25,23 +25,37 @@ daarbetanmf <- function (X, A, B, numiter = 100,order = 10,e = 1e-15) {
 
   # Run DAAREM.
   out <- suppressWarnings(
-    daarem(x0,daarbetanmf.update,daarbetanmf.objective,X,e,
+    daarem(log(c(A,B)),daarbetanmf.update,daarbetanmf.objective,X,e,
            control = list(maxiter = numiter,order = order,tol = 0,
                           mon.tol = 0.05,kappa = 20,alpha = 1.2)))
 
   # Return the estimate of the solution and the value of the objective
   # at each iteration.
-  # TO DO.
+  return(c(getnmfparams(out$par,X),list(value = out$objfn.track[-1])))
+}
+
+# Convert a vector of real numbers to the loadings (A) and factors (B)
+# of a non-negative matrix factorization.
+getnmfparams <- function (vars, X) {
+  nv <- length(vars)
+  n  <- nrow(X)
+  m  <- ncol(X)
+  k  <- nv/(n + m)
+  return(list(A = matrix(exp(vars[1:(n*k)]),n,k),
+              B = matrix(exp(vars[(n*k+1):nv]),k,m)))
 }
 
 # This implements the fixptfn argument for the daarem call above.
 daarbetanmf.update <- function (vars, X, e) {
-  # TO DO.
+  out <- getnmfparams(vars,X)
+  out <- betanmf.update(X,out$A,out$B,e)
+  return(log(c(out$A,out$B)))
 }
 
 # This implements the objfn argument for the daarem call above.
 daarbetanmf.objective <- function (vars, X, e) {
-  # TO DO.
+  out <- getnmfparams(vars,X)
+  return(cost(X,out$A,out$B,e))
 }
 
 # Perform a single multiplicative (EM) update.

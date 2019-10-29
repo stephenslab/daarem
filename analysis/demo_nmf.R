@@ -12,6 +12,7 @@ k <- 3
 # ------------------
 # Load some packages and function definitions used in the code below.
 library(Matrix)
+library(daarem)
 source("../code/nmf.R")
 
 # Initialize the sequence of pseudorandom numbers.
@@ -37,4 +38,4 @@ fit1 <- betanmf(droplet,A,B,20)
 # RUN ACCELERATED EM UPDATES
 # --------------------------
 cat("Running the accelerated EM updates.\n")
-# TO DO.
+fit2 <- daarbetanmf(droplet,A,B,20)
