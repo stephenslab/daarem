@@ -31,7 +31,7 @@ daarbetanmf <- function (X, A, B, numiter = 100,order = 10,e = 1e-15) {
 
   # Return the estimate of the solution and the value of the objective
   # at each iteration.
-  return(c(getnmfparams(out$par,X),list(value = out$objfn.track[-1])))
+  return(c(getnmfparams(out$par,X),list(value = -out$objfn.track[-1])))
 }
 
 # Convert a vector of real numbers to the loadings (A) and factors (B)
