@@ -33,6 +33,10 @@ X <- matrix(rpois(n*m,tcrossprod(L,F)),n,m)
 A <- matrix(runif(n*k),n,k)
 B <- matrix(runif(m*k),k,m)
 
+fit0 <- betanmf(X,A,B,50)
+A    <- fit0$A
+B    <- fit0$B
+
 # RUN BASIC EM UPDATES
 # --------------------
 cat("Running the multiplcative (EM) updates.\n")
@@ -61,7 +65,7 @@ fit4 <- altsqp(X,list(L = A,F = t(B)),numiter = 200,
 # --------------------------------------
 library(ggplot2)
 library(cowplot)
-f <- min(c(fit1$value,fit2$value,fit3$mkl,fit4$value)) - 0.01
+f <- min(c(fit1$value,fit2$value,fit3$mkl,fit4$value)) - 0.1
 pdat <-
   rbind(data.frame(iter = 1:200,dist = fit1$value - f,method = "EM"),
         data.frame(iter = 1:200,dist = fit2$value - f,method = "daarem"),
