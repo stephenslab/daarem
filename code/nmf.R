@@ -6,13 +6,11 @@ betanmf <- function (X, A, B, numiter = 100, e = 1e-15) {
   value <- rep(0,numiter)
   
   # Iterate the multiplicative (EM) updates.
-  cat("iter objective (cost fn)\n")
   for (i in 1:numiter) {
     out      <- betanmf.update(X,A,B,e)
     A        <- out$A
     B        <- out$B
     value[i] <- cost(X,A,B,e)
-    cat(sprintf("%4d %+0.12e\n",i,value[i]))
   }
 
   # Return the estimated factors and loadings, and the value of the
@@ -56,7 +54,6 @@ daarbetanmf.update <- function (vars, X, e) {
 daarbetanmf.objective <- function (vars, X, e) {
   out <- getnmfparams(vars,X)
   f   <- cost(X,out$A,out$B,e)
-  print(f,digits = 16)
   return(-f)
 }
 
@@ -92,4 +89,3 @@ cost <- function (X, A, B, e) {
 # Scale each column A[,i] by b[i].
 scale.cols <- function (A, b) 
   t(t(A) * b)
-
