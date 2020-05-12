@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -23,6 +23,14 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/master/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -84,7 +92,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -233,6 +240,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -244,18 +252,6 @@ $(document).ready(function () {
   display: none;
 }
 </style>
-
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
 
 <!-- code folding -->
 
@@ -295,13 +291,6 @@ $(document).ready(function () {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<!-- Add a small amount of space between sections. -->
-<style type="text/css">
-div.section {
-  padding-top: 12px;
-}
-</style>
-
 <div class="fluid-row" id="header">
 
 
@@ -332,7 +321,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-06-20
+<strong>Last updated:</strong> 2020-05-12
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -342,7 +331,7 @@ div.section {
 </p>
 <p>
 This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
-  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.4.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.1.9000). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
 </p>
 <hr>
 </div>
@@ -423,16 +412,24 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabdaaremtree20a75b6431db6249b502ee8cb8e2c60892c3cea0targetblank20a75b6a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/daarem/tree/20a75b6431db6249b502ee8cb8e2c60892c3cea0" target="_blank">20a75b6</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabdaaremtree453b62787b2a1185e2a8539c417ecd2ca7740a9atargetblank453b627a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/daarem/tree/453b62787b2a1185e2a8539c417ecd2ca7740a9a" target="_blank">453b627</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabdaaremtree20a75b6431db6249b502ee8cb8e2c60892c3cea0targetblank20a75b6a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabdaaremtree453b62787b2a1185e2a8539c417ecd2ca7740a9atargetblank453b627a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
-Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/daarem/tree/453b62787b2a1185e2a8539c417ecd2ca7740a9a" target="_blank">453b627</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 </p>
 <pre><code>
-working directory clean
+Unstaged changes:
+    Modified:   code/ridge.R
+
 </code></pre>
 <p>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
@@ -446,7 +443,7 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <div id="versions" class="tab-pane fade">
 
 <p>
-These are the previous versions of the R Markdown and HTML files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view them.
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/linreg.Rmd</code>) and HTML (<code>docs/linreg.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
 </p>
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
@@ -475,6 +472,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/stephenslab/daarem/blob/453b62787b2a1185e2a8539c417ecd2ca7740a9a/analysis/linreg.Rmd" target="_blank">453b627</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2020-05-12
+</td>
+<td>
+wflow_publish(“linreg.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/daarem/0279af90ee61757a750384d3cd8761f1c531e569/docs/linreg.html" target="_blank">0279af9</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-06-20
+</td>
+<td>
+Revised text in linreg analysis.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/stephenslab/daarem/blob/20a75b6431db6249b502ee8cb8e2c60892c3cea0/analysis/linreg.Rmd" target="_blank">20a75b6</a>
 </td>
 <td>
@@ -485,6 +516,23 @@ Peter Carbonetto
 </td>
 <td>
 wflow_publish(“linreg.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/daarem/a82f29e53aacfd484fd7ed2a24d612277189f106/docs/linreg.html" target="_blank">a82f29e</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-06-20
+</td>
+<td>
+Adjusted fig. dimensions in linreg analysis.
 </td>
 </tr>
 <tr>
@@ -502,6 +550,23 @@ Peter Carbonetto
 </td>
 <td>
 wflow_publish(“linreg.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/daarem/3a81027e9959d8e50048180888e8dd18f32031fe/docs/linreg.html" target="_blank">3a81027</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-06-20
+</td>
+<td>
+Re-ran wflow_publish(“linreg.Rmd”) after (small) changes to mr_ash code.
 </td>
 </tr>
 <tr>
@@ -616,6 +681,7 @@ se &lt;- 4</code></pre>
 library(daarem)
 library(ggplot2)
 library(cowplot)
+theme_set(theme_cowplot())
 source(&quot;../code/misc.R&quot;)
 source(&quot;../code/datasim.R&quot;)
 source(&quot;../code/ridge.R&quot;)
@@ -645,8 +711,9 @@ y &lt;- y - mean(y)</code></pre>
 f1  &lt;- ridge.objective(X,y,fit1$b,s0)
 cat(sprintf(&quot;Computation took %0.2f seconds.\n&quot;,out[&quot;elapsed&quot;]))
 cat(sprintf(&quot;Objective value at solution is %0.12f.\n&quot;,f1))
-# Computation took 0.55 seconds.
-# Objective value at solution is -20.573760535831.</code></pre>
+# blah = 0 
+# Computation took 0.39 seconds.
+# Objective value at solution is -22.515798678253.</code></pre>
 </div>
 <div id="run-accelerated-co-ordinate-ascent-updates" class="section level2">
 <h2>Run accelerated co-ordinate ascent updates</h2>
@@ -655,8 +722,8 @@ cat(sprintf(&quot;Objective value at solution is %0.12f.\n&quot;,f1))
 f2  &lt;- ridge.objective(X,y,fit2$b,s0)
 cat(sprintf(&quot;Computation took %0.2f seconds.\n&quot;,out[&quot;elapsed&quot;]))
 cat(sprintf(&quot;Objective value at solution is %0.12f.\n&quot;,f2))
-# Computation took 0.63 seconds.
-# Objective value at solution is -20.332771749786.</code></pre>
+# Computation took 0.37 seconds.
+# Objective value at solution is -22.238771667148.</code></pre>
 <p>We see that the DAAREM solution is better (it has a higher posterior value).</p>
 </div>
 <div id="plot-improvement-in-solution-over-time" class="section level2">
@@ -726,14 +793,14 @@ w  &lt;- c(0.5,0.25,0.25)</code></pre>
 <p>Fit the mr-ash model by running 200 iterations of the basic co-ordinate ascent updates.</p>
 <pre class="r"><code>out &lt;- system.time(fit3 &lt;- mr_ash(X,y,b0,se,s0,w,numiter = 100))
 cat(sprintf(&quot;Computation took %0.2f seconds.\n&quot;,out[&quot;elapsed&quot;]))
-# Computation took 1.19 seconds.</code></pre>
+# Computation took 1.42 seconds.</code></pre>
 </div>
 <div id="run-accelerated-mr-ash-co-ordinate-ascent-updates" class="section level2">
 <h2>Run accelerated mr-ash co-ordinate ascent updates</h2>
 <p>Fit the mr-ash model again, this time using DAAREM to speed up the co-ordinate ascent updates.</p>
 <pre class="r"><code>out &lt;- system.time(fit4 &lt;- daar_mr_ash(X,y,b0,se,s0,w,numiter = 100))
 cat(sprintf(&quot;Computation took %0.2f seconds.\n&quot;,out[&quot;elapsed&quot;]))
-# Computation took 1.35 seconds.</code></pre>
+# Computation took 1.30 seconds.</code></pre>
 <p>Like the plot above, this plot shows the improvement in the solution over time for the basic and accelated mr-ash co-ordinate ascent algorithms. Both algorithms end up at the same solution. But the “accelerated” version indeed arrives at the solution much more quickly, whereas the basic algorithm gets “stuck” for many iterations.</p>
 <pre class="r"><code>f    &lt;- max(c(fit3$value,fit4$value)) + 1e-8
 pdat &lt;- 
@@ -770,6 +837,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/daarem/blob/a82f29e53aacfd484fd7ed2a24d612277189f106/docs/figure/linreg.Rmd/plot-iter-vs-mr-ash-objective-1.png" target="_blank">a82f29e</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-06-20
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/daarem/blob/639fe742e6ad7203551531166c1cffb3ef77ff77/docs/figure/linreg.Rmd/plot-iter-vs-mr-ash-objective-1.png" target="_blank">639fe74</a>
 </td>
 <td>
@@ -791,13 +869,13 @@ Peter Carbonetto
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()
-# R version 3.4.3 (2017-11-30)
+# R version 3.6.2 (2019-12-12)
 # Platform: x86_64-apple-darwin15.6.0 (64-bit)
-# Running under: macOS High Sierra 10.13.6
+# Running under: macOS Catalina 10.15.4
 # 
 # Matrix products: default
-# BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
-# LAPACK: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRlapack.dylib
+# BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib
+# LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib
 # 
 # locale:
 # [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
@@ -806,22 +884,23 @@ Peter Carbonetto
 # [1] stats     graphics  grDevices utils     datasets  methods   base     
 # 
 # other attached packages:
-# [1] cowplot_0.9.4 ggplot2_3.1.0 daarem_0.3    MASS_7.3-48  
+# [1] cowplot_1.0.0 ggplot2_3.3.0 daarem_0.4.1  MASS_7.3-51.4
 # 
 # loaded via a namespace (and not attached):
-#  [1] Rcpp_1.0.1        compiler_3.4.3    pillar_1.3.1     
-#  [4] git2r_0.25.2.9008 plyr_1.8.4        workflowr_1.4.0  
-#  [7] tools_3.4.3       digest_0.6.18     evaluate_0.13    
-# [10] tibble_2.1.1      gtable_0.2.0      pkgconfig_2.0.2  
-# [13] rlang_0.3.1       yaml_2.2.0        xfun_0.7         
-# [16] withr_2.1.2.9000  stringr_1.4.0     dplyr_0.8.0.1    
-# [19] knitr_1.23        fs_1.2.7          rprojroot_1.3-2  
-# [22] grid_3.4.3        tidyselect_0.2.5  glue_1.3.1       
-# [25] R6_2.4.0          rmarkdown_1.13    purrr_0.2.5      
-# [28] magrittr_1.5      whisker_0.3-2     backports_1.1.2  
-# [31] scales_0.5.0      htmltools_0.3.6   assertthat_0.2.0 
-# [34] colorspace_1.4-0  labeling_0.3      stringi_1.4.3    
-# [37] lazyeval_0.2.1    munsell_0.4.3     crayon_1.3.4</code></pre>
+#  [1] Rcpp_1.0.3           compiler_3.6.2       pillar_1.4.3        
+#  [4] later_1.0.0          git2r_0.26.1         workflowr_1.6.1.9000
+#  [7] tools_3.6.2          digest_0.6.23        evaluate_0.14       
+# [10] lifecycle_0.1.0      tibble_2.1.3         gtable_0.3.0        
+# [13] pkgconfig_2.0.3      rlang_0.4.5          yaml_2.2.0          
+# [16] xfun_0.11            withr_2.1.2          stringr_1.4.0       
+# [19] dplyr_0.8.3          knitr_1.26           fs_1.3.1            
+# [22] rprojroot_1.3-2      grid_3.6.2           tidyselect_0.2.5    
+# [25] glue_1.3.1           R6_2.4.1             rmarkdown_2.0       
+# [28] farver_2.0.1         purrr_0.3.3          magrittr_1.5        
+# [31] whisker_0.4          backports_1.1.5      scales_1.1.0        
+# [34] promises_1.1.0       htmltools_0.4.0      assertthat_0.2.1    
+# [37] colorspace_1.4-1     httpuv_1.5.2         labeling_0.3        
+# [40] stringi_1.4.3        munsell_0.5.0        crayon_1.3.4</code></pre>
 </div>
 </div>
 
@@ -854,6 +933,23 @@ $(document).ready(function () {
 
 
 </script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
