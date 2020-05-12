@@ -4,11 +4,11 @@ ridge <- function (X, y, b0, s0, numiter = 100) {
 
   # Get the initial estimate.
   b <- b0
-  
+
   # This variable is used to keep track of the algorithm's progress;
   # it stores the value of the objective at each iteration.
   value <- rep(0,numiter)
-  
+
   # Iterate the co-ordinate ascent steps.
   for (iter in 1:numiter) {
 
@@ -18,7 +18,7 @@ ridge <- function (X, y, b0, s0, numiter = 100) {
     # Record the algorithm's progress.
     value[iter] <- ridge.objective(X,y,b,s0)
   }
-
+  
   # Return the estimate of the regression coefficients ("b") and the
   # value of the objective at each iteration ("value").
   return(list(b = b,value = value))
@@ -27,7 +27,20 @@ ridge <- function (X, y, b0, s0, numiter = 100) {
 # Fit a ridge regression model by running a fixed number of
 # co-ordinate ascent updates accelerated using the DAAREM method.
 daarridge <- function (X, y, b0, s0, numiter = 100, order = 10) {
-
+  nupd <- 0
+  nobj <- 0
+  
+  # This implements the objfn argument for the daarem call below.
+  daarridge.objective <- function (b, X, y, s0) {
+    nobj <<- nobj + 1
+    return(ridge.objective(X,y,b,s0))
+  }
+   # This implements the fixptfn argument for the daarem call below.
+  daarridge.update <- function (b, X, y, x0) {
+    nupd <<- nupd + 1
+    return(ridge.update(X,y,b,s0))
+  }
+    
   # Run DAAREM.
   out <- suppressWarnings(
     daarem(b0,daarridge.update,daarridge.objective,X,y,s0,
@@ -36,16 +49,11 @@ daarridge <- function (X, y, b0, s0, numiter = 100, order = 10) {
 
   # Return the estimate of the regression coefficients ("b") and the
   # value of the objective at each iteration ("value").
-  return(list(b = out$par,value = out$objfn.track[-1]))
+  return(list(b     = out$par,
+              value = out$objfn.track[-1],
+              nupd  = nupd,
+              nobj  = nobj))
 }
-
-# This implements the objfn argument for the daarem call above.
-daarridge.objective <- function (b, X, y, s0)
-  ridge.objective(X,y,b,s0)
-
-# This implements the fixptfn argument for the daarem call above.
-daarridge.update <- function (b, X, y, x0)
-  ridge.update(X,y,b,s0)
 
 # Compute the value of the log-posterior (i.e., the log-likelihood
 # with the ridge "penalty term") up to a proportionality constant.
