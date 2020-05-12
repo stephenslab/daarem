@@ -331,7 +331,7 @@ $(document).ready(function () {
 </p>
 <p>
 This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
-  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.1.9000). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.2). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
 </p>
 <hr>
 </div>
@@ -412,24 +412,22 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabdaaremtree453b62787b2a1185e2a8539c417ecd2ca7740a9atargetblank453b627a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/daarem/tree/453b62787b2a1185e2a8539c417ecd2ca7740a9a" target="_blank">453b627</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabdaaremtreeb16e6738f845a5390739ec12267eb6f148eb2016targetblankb16e673a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/daarem/tree/b16e6738f845a5390739ec12267eb6f148eb2016" target="_blank">b16e673</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabdaaremtree453b62787b2a1185e2a8539c417ecd2ca7740a9atargetblank453b627a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabdaaremtreeb16e6738f845a5390739ec12267eb6f148eb2016targetblankb16e673a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/daarem/tree/453b62787b2a1185e2a8539c417ecd2ca7740a9a" target="_blank">453b627</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/daarem/tree/b16e6738f845a5390739ec12267eb6f148eb2016" target="_blank">b16e673</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 </p>
 <pre><code>
-Unstaged changes:
-    Modified:   code/ridge.R
-
+working directory clean
 </code></pre>
 <p>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
@@ -467,6 +465,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/daarem/b58b5db32b1d8b99fa277407b32f2047455b707e/docs/linreg.html" target="_blank">b58b5db</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2020-05-12
+</td>
+<td>
+Re-built linreg analysis after a couple small changes to the daarem
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -711,8 +726,7 @@ y &lt;- y - mean(y)</code></pre>
 f1  &lt;- ridge.objective(X,y,fit1$b,s0)
 cat(sprintf(&quot;Computation took %0.2f seconds.\n&quot;,out[&quot;elapsed&quot;]))
 cat(sprintf(&quot;Objective value at solution is %0.12f.\n&quot;,f1))
-# blah = 0 
-# Computation took 0.39 seconds.
+# Computation took 0.43 seconds.
 # Objective value at solution is -22.515798678253.</code></pre>
 </div>
 <div id="run-accelerated-co-ordinate-ascent-updates" class="section level2">
@@ -722,7 +736,7 @@ cat(sprintf(&quot;Objective value at solution is %0.12f.\n&quot;,f1))
 f2  &lt;- ridge.objective(X,y,fit2$b,s0)
 cat(sprintf(&quot;Computation took %0.2f seconds.\n&quot;,out[&quot;elapsed&quot;]))
 cat(sprintf(&quot;Objective value at solution is %0.12f.\n&quot;,f2))
-# Computation took 0.37 seconds.
+# Computation took 0.45 seconds.
 # Objective value at solution is -22.238771667148.</code></pre>
 <p>We see that the DAAREM solution is better (it has a higher posterior value).</p>
 </div>
@@ -766,6 +780,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/daarem/blob/b58b5db32b1d8b99fa277407b32f2047455b707e/docs/figure/linreg.Rmd/plot-iter-vs-objective-1.png" target="_blank">b58b5db</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2020-05-12
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/daarem/blob/639fe742e6ad7203551531166c1cffb3ef77ff77/docs/figure/linreg.Rmd/plot-iter-vs-objective-1.png" target="_blank">639fe74</a>
 </td>
 <td>
@@ -793,14 +818,14 @@ w  &lt;- c(0.5,0.25,0.25)</code></pre>
 <p>Fit the mr-ash model by running 200 iterations of the basic co-ordinate ascent updates.</p>
 <pre class="r"><code>out &lt;- system.time(fit3 &lt;- mr_ash(X,y,b0,se,s0,w,numiter = 100))
 cat(sprintf(&quot;Computation took %0.2f seconds.\n&quot;,out[&quot;elapsed&quot;]))
-# Computation took 1.42 seconds.</code></pre>
+# Computation took 1.19 seconds.</code></pre>
 </div>
 <div id="run-accelerated-mr-ash-co-ordinate-ascent-updates" class="section level2">
 <h2>Run accelerated mr-ash co-ordinate ascent updates</h2>
 <p>Fit the mr-ash model again, this time using DAAREM to speed up the co-ordinate ascent updates.</p>
 <pre class="r"><code>out &lt;- system.time(fit4 &lt;- daar_mr_ash(X,y,b0,se,s0,w,numiter = 100))
 cat(sprintf(&quot;Computation took %0.2f seconds.\n&quot;,out[&quot;elapsed&quot;]))
-# Computation took 1.30 seconds.</code></pre>
+# Computation took 1.17 seconds.</code></pre>
 <p>Like the plot above, this plot shows the improvement in the solution over time for the basic and accelated mr-ash co-ordinate ascent algorithms. Both algorithms end up at the same solution. But the “accelerated” version indeed arrives at the solution much more quickly, whereas the basic algorithm gets “stuck” for many iterations.</p>
 <pre class="r"><code>f    &lt;- max(c(fit3$value,fit4$value)) + 1e-8
 pdat &lt;- 
@@ -835,6 +860,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/daarem/blob/b58b5db32b1d8b99fa277407b32f2047455b707e/docs/figure/linreg.Rmd/plot-iter-vs-mr-ash-objective-1.png" target="_blank">b58b5db</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2020-05-12
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/daarem/blob/a82f29e53aacfd484fd7ed2a24d612277189f106/docs/figure/linreg.Rmd/plot-iter-vs-mr-ash-objective-1.png" target="_blank">a82f29e</a>
@@ -887,20 +923,17 @@ Peter Carbonetto
 # [1] cowplot_1.0.0 ggplot2_3.3.0 daarem_0.4.1  MASS_7.3-51.4
 # 
 # loaded via a namespace (and not attached):
-#  [1] Rcpp_1.0.3           compiler_3.6.2       pillar_1.4.3        
-#  [4] later_1.0.0          git2r_0.26.1         workflowr_1.6.1.9000
-#  [7] tools_3.6.2          digest_0.6.23        evaluate_0.14       
-# [10] lifecycle_0.1.0      tibble_2.1.3         gtable_0.3.0        
-# [13] pkgconfig_2.0.3      rlang_0.4.5          yaml_2.2.0          
-# [16] xfun_0.11            withr_2.1.2          stringr_1.4.0       
-# [19] dplyr_0.8.3          knitr_1.26           fs_1.3.1            
-# [22] rprojroot_1.3-2      grid_3.6.2           tidyselect_0.2.5    
-# [25] glue_1.3.1           R6_2.4.1             rmarkdown_2.0       
-# [28] farver_2.0.1         purrr_0.3.3          magrittr_1.5        
-# [31] whisker_0.4          backports_1.1.5      scales_1.1.0        
-# [34] promises_1.1.0       htmltools_0.4.0      assertthat_0.2.1    
-# [37] colorspace_1.4-1     httpuv_1.5.2         labeling_0.3        
-# [40] stringi_1.4.3        munsell_0.5.0        crayon_1.3.4</code></pre>
+#  [1] Rcpp_1.0.3       compiler_3.6.2   pillar_1.4.3     later_1.0.0     
+#  [5] git2r_0.26.1     workflowr_1.6.2  tools_3.6.2      digest_0.6.23   
+#  [9] evaluate_0.14    lifecycle_0.1.0  tibble_2.1.3     gtable_0.3.0    
+# [13] pkgconfig_2.0.3  rlang_0.4.5      yaml_2.2.0       xfun_0.11       
+# [17] withr_2.1.2      stringr_1.4.0    dplyr_0.8.3      knitr_1.26      
+# [21] fs_1.3.1         rprojroot_1.3-2  grid_3.6.2       tidyselect_0.2.5
+# [25] glue_1.3.1       R6_2.4.1         rmarkdown_2.0    farver_2.0.1    
+# [29] purrr_0.3.3      magrittr_1.5     whisker_0.4      backports_1.1.5 
+# [33] scales_1.1.0     promises_1.1.0   htmltools_0.4.0  assertthat_0.2.1
+# [37] colorspace_1.4-1 httpuv_1.5.2     labeling_0.3     stringi_1.4.3   
+# [41] munsell_0.5.0    crayon_1.3.4</code></pre>
 </div>
 </div>
 
